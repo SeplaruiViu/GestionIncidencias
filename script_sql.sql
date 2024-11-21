@@ -1,0 +1,75 @@
+CREATE SCHEMA `gestincidencias` ;
+
+-- TABLA ROLES
+
+CREATE TABLE ROLES (
+    idrol INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(255),
+    PRIMARY KEY (idrol)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- TABLA USUARIOS
+CREATE TABLE USUARIOS (
+    idusuario INT NOT NULL AUTO_INCREMENT,
+    usuario VARCHAR(255) NOT NULL UNIQUE,
+    correo VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    apellidos VARCHAR(255) NOT NULL,
+    idrol INT UNIQUE,
+    PRIMARY KEY (idusuario),
+    FOREIGN KEY(idrol) REFERENCES ROLES(idrol)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- TABLA TÉCNICOS
+CREATE TABLE TECNICOS (
+    idtecnico INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    apellidos VARCHAR(255) NOT NULL,
+    iddepartamento INT UNIQUE,
+    PRIMARY KEY (idtecnico),
+    FOREIGN KEY(iddepartamento) REFERENCES DEPARTAMENTOS(iddepartamento)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- TABLA DEPARTAMENTOS
+CREATE TABLE DEPARTAMENTOS(
+    iddepartamento INT NOT NULL AUTO_INCREMENT,
+    coddepartamento VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- TABLA INCIDENCIAS
+CREATE TABLE INCIDENCIAS(
+    idincidencia INT NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL,
+    fechacreacion DATE NOT NULL,
+    idestado INT NOT NULL,
+    idusuario INT NOT NULL,
+    idtipoincidencia INT NOT NULL,
+    idnota INT NOT NULL,
+    idtecnico INT NOT NULL,
+    idprioridad INT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- TABLA PRIORIDADES
+CREATE TABLE PRIORIDADES_INCIDENCIA(
+   idprioridad INT NOT NULL AUTO_INCREMENT,
+   nombre VARCHAR(255) NOT NULL,
+   descripcion VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- TABLA TIPO_INCIDENCIA
+CREATE TABLE TIPOS_INCIDENCIA(
+    idtipoincidencia INT NOT NULL AUTO_INCREMENT,
+    codtipoincidencia VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- TABLA ESTADO_INCIDENCIA
+CREATE TABLE ESTADOS_INCIDENCIA(
+    idestadoincidencia INT NOT NULL AUTO_INCREMENTE,
+    codestadoincidencia VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
