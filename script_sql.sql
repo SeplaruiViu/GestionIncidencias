@@ -21,6 +21,7 @@ CREATE TABLE USUARIOS (
     idrol BIGINT UNIQUE,
     PRIMARY KEY (idusuario),
     FOREIGN KEY(idrol) REFERENCES ROLES(idrol)
+    ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
 
 
