@@ -31,4 +31,6 @@ public class RolServicio {
     public void deleteById(long idRol) {
         rolRepositorio.deleteById(idRol);
     }
+
+    public boolean existsByNombre(String nombre) {return rolRepositorio.existsByNombre(nombre);}
 }

@@ -39,18 +39,29 @@ public class RolControlador {
 
     // Crear Rol
     @PostMapping("/nuevo")
-    public ResponseEntity<Rol> createRol(@RequestBody Rol rol)
+    public ResponseEntity<?> createRol(@RequestBody Rol rol)
     {
+        if(rol.getNombre() == null || rol.getNombre().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre del Rol no puede estar en blanco");
+        }
+
+        boolean existeRol = rolServicio.existsByNombre(rol.getNombre());
+        if(existeRol) {
+            return ResponseEntity.badRequest().body("El nombre del Rol ya existe en el sistema.");
+        }
+
         Rol nuevoRol = rolServicio.save(rol);
         return new ResponseEntity<>(nuevoRol, HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{idRol}")
-    public ResponseEntity<Rol> updateRol(@PathVariable("idRol") long idRol, @RequestBody Rol rolActualizado) {
+    public ResponseEntity<?> updateRol(@PathVariable("idRol") long idRol, @RequestBody Rol rolActualizado) {
         Optional<Rol> rolOriginal = rolServicio.findById(idRol);
         if(rolOriginal.isEmpty() || rolOriginal == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+
         Rol rol = rolOriginal.get();
 
         rol.setNombre(rolActualizado.getNombre());
