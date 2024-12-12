@@ -41,4 +41,8 @@ public class UsuarioServicio {
     public boolean existsByCorreo(String correo) {
         return usuarioRepositorio.existsByCorreo(correo);
     }
+
+    public boolean existsByUsuarioAndIdUsuarioNot(String usuario, Long idUsuario) { return usuarioRepositorio.existsByUsuarioAndIdUsuarioNot(usuario, idUsuario);}
+
+    public boolean existsByCorreoAndIdUsuarioNot(String correo, Long idUsuario) {return usuarioRepositorio.existsByCorreoAndIdUsuarioNot(correo, idUsuario);}
 }

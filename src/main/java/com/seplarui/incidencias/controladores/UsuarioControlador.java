@@ -6,10 +6,10 @@ import com.seplarui.incidencias.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,16 +19,21 @@ public class UsuarioControlador {
 
     @Autowired
     UsuarioServicio usuarioServicio;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    //private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    public UsuarioControlador(UsuarioServicio usuarioServicio, BCryptPasswordEncoder passwordEncoder) {
+    public UsuarioControlador(UsuarioServicio usuarioServicio, PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
         this.usuarioServicio = usuarioServicio;
     }
-
+    @GetMapping("/sinpass")
+    public String goHome() {
+        return "Estoy en el controlador de usuarios.";
+    }
     // Lista usuarios
     @RequestMapping("/lista")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Usuario>> findAll() {
         List<Usuario> listaUsuarios = usuarioServicio.findAll();
 
@@ -37,6 +42,7 @@ public class UsuarioControlador {
 
     //Detalle usuario
     @RequestMapping("/detalle/{idUsuario}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') OR hasAuthority('ROLE_USER')")
     public ResponseEntity<?> findById(@PathVariable("idUsuario") long idUsuario) {
         Optional<Usuario> usuario = usuarioServicio.findById(idUsuario);
         if(usuario.isEmpty() || usuario == null) {
@@ -83,6 +89,7 @@ public class UsuarioControlador {
 
     //Modificar usuario
     @PutMapping("/actualizar/{idUsuario}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateUsuario(@PathVariable("idUsuario") long idUsuario, @RequestBody Usuario usuarioActualizado) {
         Optional<Usuario> usuarioOriginal = usuarioServicio.findById(idUsuario);
         if(usuarioOriginal.isEmpty() || usuarioOriginal == null) {
@@ -110,17 +117,27 @@ public class UsuarioControlador {
             return ResponseEntity.badRequest().body("Los apellidos del usuario no puede estar en blanco");
         }
 
-        boolean existeUsuario = usuarioServicio.existsByUsuario(usuarioActualizado.getUsuario());
+//        boolean existeUsuario = usuarioServicio.existsByUsuario(usuarioActualizado.getUsuario());
+
+//        if(existeUsuario) {
+//            return ResponseEntity.badRequest().body("El usuario ya existe en el sistema");
+//        }
+//
+//        boolean existeCorreo = usuarioServicio.existsByCorreo(usuarioActualizado.getCorreo());
+//        if(existeCorreo) {
+//            return ResponseEntity.badRequest().body("El correo ya existe en el sistema");
+//        }
+
+        boolean existeUsuario = usuarioServicio.existsByUsuarioAndIdUsuarioNot(usuarioActualizado.getUsuario(), usuarioOriginal.get().getIdUsuario());
 
         if(existeUsuario) {
             return ResponseEntity.badRequest().body("El usuario ya existe en el sistema");
         }
 
-        boolean existeCorreo = usuarioServicio.existsByCorreo(usuarioActualizado.getCorreo());
+        boolean existeCorreo = usuarioServicio.existsByCorreoAndIdUsuarioNot(usuarioActualizado.getCorreo(), usuarioOriginal.get().getIdUsuario());
         if(existeCorreo) {
             return ResponseEntity.badRequest().body("El correo ya existe en el sistema");
         }
-
 
         Usuario usuario = usuarioOriginal.get();
 

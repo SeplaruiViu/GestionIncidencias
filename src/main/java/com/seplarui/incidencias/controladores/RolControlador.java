@@ -7,6 +7,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class RolControlador {
     RolServicio rolServicio;
     // Listar Roles
     @RequestMapping("/lista")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') OR hasAuthority('ROLE_USER')")
     public ResponseEntity<List<Rol>> findAll() {
         List<Rol> listaRoles = rolServicio.findAll();
 
@@ -28,6 +30,7 @@ public class RolControlador {
 
     //Detalle Rol
     @RequestMapping("/detalle/{idRol}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') OR hasAuthority('ROLE_USER'")
     public ResponseEntity<Optional<Rol>> findById(@PathVariable("idRol") long idRol) {
         Optional<Rol> rol = rolServicio.findById(idRol);
         if(rol.isEmpty() || rol == null) {
@@ -39,6 +42,7 @@ public class RolControlador {
 
     // Crear Rol
     @PostMapping("/nuevo")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> createRol(@RequestBody Rol rol)
     {
         if(rol.getNombre() == null || rol.getNombre().isEmpty()) {
@@ -58,9 +62,18 @@ public class RolControlador {
     public ResponseEntity<?> updateRol(@PathVariable("idRol") long idRol, @RequestBody Rol rolActualizado) {
         Optional<Rol> rolOriginal = rolServicio.findById(idRol);
         if(rolOriginal.isEmpty() || rolOriginal == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.badRequest().body("No existe el rol a actualizar");
         }
 
+        //Comprobacion de unicidad de nombre
+        boolean existeRol = rolServicio.existsByNombre(rolActualizado.getNombre());
+        if(existeRol) {
+            return ResponseEntity.badRequest().body("El nombre de rol ya existe en el sistema");
+        }
+        if(rolActualizado.getNombre() == null || rolActualizado.getNombre().isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre del rol no puede estar en blanco");
+        }
 
         Rol rol = rolOriginal.get();
 
