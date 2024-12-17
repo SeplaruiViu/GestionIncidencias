@@ -2,6 +2,7 @@ package com.seplarui.incidencias.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -45,12 +46,14 @@ public class SecurityConfig {
 //        return http.build();
 
         http
-                .cors(withDefaults())
+//                .cors(withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuarios/sinpass", "/api/login/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults())
+
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
@@ -85,8 +88,12 @@ public class SecurityConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*");
-
+                //registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+                registry.addMapping("/**") // Permite todos los endpoints
+                        .allowedOrigins("http://localhost:4200") // Permite origen Angular
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }

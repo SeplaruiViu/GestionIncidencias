@@ -23,7 +23,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    @CrossOrigin(origins = "*") // Permite solicitudes desde cualquier origen
+  //  @CrossOrigin(origins = "http://localhost:4200") // Permite solicitudes desde cualquier origen
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsuario(), loginRequest.getPassword()));
@@ -32,6 +32,7 @@ public class AuthController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Usuario autenticado correctamente");
         response.put("username", loginRequest.getUsuario());
+        response.put("password", loginRequest.getPassword());
         response.put("status","ok");
         return ResponseEntity.ok(response);
     }

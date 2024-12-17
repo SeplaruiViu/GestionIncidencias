@@ -1,0 +1,56 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Lista de Usuarios</h2>
+</div>
+
+<div>
+  <!-- <ul *ngIf="usuarios.length > 0">
+    <li *ngFor="let usuario of usuarios">
+      {{ usuario.nombre }}
+    </li>
+  </ul> -->
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert alert-danger">
+      {{ errorMensaje }}
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>USUARIO</th>
+          <th>CORREO</th>
+          <th>NOMBRE</th>
+          <th>APELLIDOS</th>
+          <th>ROL</th>
+          <th>ACCIÓN</th>
+        </tr>
+        <tr *ngFor="let usuario of usuarios">
+          <th>{{usuario.idUsuario}}</th>
+          <th>{{usuario.usuario}}</th>
+          <th>{{usuario.correo}}</th>
+          <th>{{usuario.nombre}}</th>
+          <th>{{usuario.apellidos}}</th>
+          <th>{{usuario.rol.nombre}}</th>
+          <th><button class="btn btn-primary">Editar</button>
+          <!-- <button class="btn btn-danger" (click)="confirmarEliminarUsuario(usuario.idUsuario)">Eliminar</button></th> -->
+          <button class="btn btn-danger" (click)="abrirModal(usuario.idUsuario)">Eliminar</button></th>
+
+        </tr>
+
+      </thead>
+
+
+    </table>
+  </div>
+  <p *ngIf="usuarios.length === 0 && !errorMensaje">
+    No hay usuarios para mostrar.
+  </p>
+</div>
+
+
+
+<!-- <app-confirmar-eliminar [isOpen]="estaDialogoAbierto" (confirm)="onConfirmarEliminarUsuario($event)"></app-confirmar-eliminar> -->
+<!-- lista-usuarios.component.html -->
+<!-- <app-confirmar-eliminar [isOpen]="isDialogOpen" (confirm)="onConfirmarEliminarUsuario($event)"></app-confirmar-eliminar> -->
+
+

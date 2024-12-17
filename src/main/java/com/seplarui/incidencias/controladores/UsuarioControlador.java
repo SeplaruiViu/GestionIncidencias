@@ -33,10 +33,11 @@ public class UsuarioControlador {
     }
     // Lista usuarios
     @RequestMapping("/lista")
+    //@CrossOrigin("http://localhost:4200")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Usuario>> findAll() {
         List<Usuario> listaUsuarios = usuarioServicio.findAll();
-
+        System.out.println(listaUsuarios.get(0).getRol());
         return new ResponseEntity<>(listaUsuarios, HttpStatus.OK);
     }
 
@@ -155,6 +156,7 @@ public class UsuarioControlador {
     }
 
     @DeleteMapping("/eliminar/{idUsuario}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> deleteUsuario(@PathVariable("idUsuario") long idUsuario) {
         Optional<Usuario> usuarioEliminar = usuarioServicio.findById(idUsuario);
 
@@ -162,7 +164,7 @@ public class UsuarioControlador {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         usuarioServicio.deleteById(idUsuario);
-        return new ResponseEntity<>("El usuario con IDENTIFICADOR: " + idUsuario + " se ha eliminado correctamente", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("El usuario con IDENTIFICADOR: " + idUsuario + " se ha eliminado correctamente", HttpStatus.OK);
     }
 
 }

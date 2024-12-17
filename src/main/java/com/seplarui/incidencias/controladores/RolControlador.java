@@ -21,7 +21,7 @@ public class RolControlador {
     RolServicio rolServicio;
     // Listar Roles
     @RequestMapping("/lista")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') OR hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Rol>> findAll() {
         List<Rol> listaRoles = rolServicio.findAll();
 
@@ -30,7 +30,7 @@ public class RolControlador {
 
     //Detalle Rol
     @RequestMapping("/detalle/{idRol}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') OR hasAuthority('ROLE_USER'")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Optional<Rol>> findById(@PathVariable("idRol") long idRol) {
         Optional<Rol> rol = rolServicio.findById(idRol);
         if(rol.isEmpty() || rol == null) {

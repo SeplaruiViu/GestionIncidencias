@@ -1,5 +1,6 @@
 package com.seplarui.incidencias.modelos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -22,7 +23,8 @@ public class Rol {
     private String descripcion;
 
     @OneToMany(mappedBy = "rol", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = false)
-    @JsonManagedReference
+//    @JsonManagedReference
+    @JsonIgnoreProperties("rol")
     private List<Usuario> listaUsuarios;
 
     public Long getIdRol() {

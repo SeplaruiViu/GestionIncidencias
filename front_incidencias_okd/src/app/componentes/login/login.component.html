@@ -1,0 +1,23 @@
+  <div class="container">
+    <h1 class="row justify-content-center mt-5">GESTIÓN DE INCIDENCIAS</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-6 mt-5">
+
+        <form (ngSubmit)="login()">
+          <div class="mb-3 row">
+            <label for="usuario" class="col-sm-3 col-form-label">Usuario</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="usuario" name="usuario" [(ngModel)]="usuario" required/>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="inputPassword5" class="col-sm-3 col-form-label">Password</label>
+            <div class="col-sm-9">
+              <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" aria-describedby="passwordHelpBlock" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="aceptar">Aceptar</button>
+        </form>
+      </div>
+    </div>
+  </div>

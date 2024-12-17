@@ -2,6 +2,7 @@ package com.seplarui.incidencias.modelos;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -32,7 +33,8 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name="idrol", nullable = true)
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonIgnoreProperties("listaUsuarios")
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

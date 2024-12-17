@@ -1,0 +1,14 @@
+ .modal {
+  position: fixed; /* Fija la posición en la pantalla */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta el centro */
+  z-index: 1050; /* Superpone el modal sobre otros elementos */
+  background: white; /* Fondo blanco del modal */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
+  width: 90%; /* Ajusta el ancho según tus necesidades */
+  max-width: 500px; /* Ancho máximo del modal */
+  padding: 1rem;
+}
+
