@@ -1,14 +1,11 @@
 <app-menu></app-menu>
 <div class="container">
   <h2>Lista de Usuarios</h2>
+  <button class="btn btn-primary" routerLink='/crearUsuarios'>Crear Usuario</button>
+
 </div>
 
 <div>
-  <!-- <ul *ngIf="usuarios.length > 0">
-    <li *ngFor="let usuario of usuarios">
-      {{ usuario.nombre }}
-    </li>
-  </ul> -->
   <div class="container">
     <div *ngIf="errorMensaje" class="alert alert-danger">
       {{ errorMensaje }}
@@ -46,11 +43,3 @@
     No hay usuarios para mostrar.
   </p>
 </div>
-
-
-
-<!-- <app-confirmar-eliminar [isOpen]="estaDialogoAbierto" (confirm)="onConfirmarEliminarUsuario($event)"></app-confirmar-eliminar> -->
-<!-- lista-usuarios.component.html -->
-<!-- <app-confirmar-eliminar [isOpen]="isDialogOpen" (confirm)="onConfirmarEliminarUsuario($event)"></app-confirmar-eliminar> -->
-
-

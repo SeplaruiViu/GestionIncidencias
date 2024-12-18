@@ -10,6 +10,12 @@ import java.util.List;
 @Table(name="ROLES")
 public class Rol {
 
+    public Rol() {
+    }
+
+    public Rol(Long idRol) {
+        this.idRol = idRol;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

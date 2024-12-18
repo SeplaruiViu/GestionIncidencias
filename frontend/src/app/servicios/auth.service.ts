@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { Usuario } from '../modelos/usuario-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ export class AuthService {
 
   private loginUrl = 'http://localhost:8080/api/login';
   private usuariosUrl = 'http://localhost:8080/usuarios/lista';
+  private rolesUrl = 'http://localhost:8080/roles/lista';
+  private crearUsuarioUrl = 'http://localhost:8080/usuarios/nuevo';
 
   private authData:{usuario:string; password:string} | null = null;
 
@@ -56,18 +59,36 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
-    // this.http.delete(urlEliminarUsuario, { headers }).subscribe({
-    //   next: (response) => console.log('Respuesta del servidor:', response),
-    //   error: (error) => console.error('Error al eliminar usuario:', error)
-    // });
 
-    // return this.http.delete(urlEliminarUsuario, {headers})
-
-    return this.http.delete(urlEliminarUsuario, {headers}).pipe(
+    return this.http.delete(urlEliminarUsuario, {headers, responseType:'text'}).pipe(
       tap({
         next: (response) => console.log('Respuesta del servidor:', response),
         error: (error) => console.error('Error al eliminar usuario:', error)
       })
     )
+  }
+
+  crearUsuario(usuario: Usuario):Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.post(this.crearUsuarioUrl, usuario, {headers});
+  }
+
+
+  getRoles():Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+    return this.http.get(this.rolesUrl, {headers});
   }
 }
