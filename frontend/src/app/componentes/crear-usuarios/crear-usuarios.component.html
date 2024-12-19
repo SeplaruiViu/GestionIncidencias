@@ -12,6 +12,11 @@
         <label for="usuario" class="col-sm-3 col-form-label">Usuario</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" id="usuario" name="usuario" formControlName="usuario" required />
+          <div *ngIf="usuarioForm.get('usuario')?.invalid && usuarioForm.get('usuario')?.touched" class="error">
+            <div *ngIf="usuarioForm.get('usuario')?.errors?.['required']" class="alert bg-danger">
+              El campo Usuario es obligatorio.
+            </div>
+          </div>
         </div>
       </div>
 
@@ -19,6 +24,14 @@
         <label for="correo" class="col-sm-3 col-form-label">Correo</label>
         <div class="col-sm-9">
           <input type="email" class="form-control" id="correo" name="correo" formControlName="correo" required />
+          <div *ngIf="usuarioForm.get('correo')?.invalid && usuarioForm.get('correo')?.touched" class="error">
+            <div *ngIf="usuarioForm.get('correo')?.errors?.['required']" class="alert bg-danger">
+              El campo Correo es obligatorio.
+            </div>
+            <div *ngIf="usuarioForm.get('correo')?.errors?.['email']" class="alert bg-danger">
+              El formato del correo no es válido.
+            </div>
+          </div>
         </div>
       </div>
 
@@ -27,6 +40,11 @@
         <div class="col-sm-9">
           <input type="password" class="form-control" id="password" name="password" formControlName="password"
             required />
+            <div *ngIf="usuarioForm.get('password')?.invalid && usuarioForm.get('password')?.touched" class="error">
+              <div *ngIf="usuarioForm.get('password')?.errors?.['required']" class="alert bg-danger">
+                El campo Password es obligatorio.
+              </div>
+            </div>
         </div>
       </div>
 
@@ -34,6 +52,11 @@
         <label for="nombre" class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" id="nombre" name="nombre" formControlName="nombre" required />
+          <div *ngIf="usuarioForm.get('nombre')?.invalid && usuarioForm.get('nombre')?.touched" class="error">
+            <div *ngIf="usuarioForm.get('nombre')?.errors?.['required']" class="alert bg-danger">
+              El campo Nombre es obligatorio.
+            </div>
+          </div>
         </div>
       </div>
 
@@ -42,6 +65,11 @@
         <div class="col-sm-9">
           <input type="text" class="form-control" id="apellidos" name="apellidos" formControlName="apellidos"
             required />
+            <div *ngIf="usuarioForm.get('apellidos')?.invalid && usuarioForm.get('apellidos')?.touched" class="error">
+              <div *ngIf="usuarioForm.get('apellidos')?.errors?.['required']" class="alert bg-danger">
+                El campo Apellidos es obligatorio.
+              </div>
+            </div>
         </div>
       </div>
 
@@ -52,14 +80,18 @@
             <option *ngFor="let rol of roles" [value]="rol.idRol">
               {{rol.nombre}}
             </option>
-
           </select>
+        </div>
+        <div *ngIf="usuarioForm.get('rol')?.invalid && usuarioForm.get('rol')?.touched" class="error">
+          <div *ngIf="usuarioForm.get('rol')?.errors?.['required']" class="alert bg-danger">
+            El campo Rol es obligatorio.
+          </div>
         </div>
       </div>
       <div class="mb-3 row">
         <div class="col-sm-9 offset-sm-3 text-end">
           <button type="submit" class="btn btn-primary" id="aceptar">Guardar</button>
-          <!-- <button type="submit" class="btn btn-danger" id="aceptar">Cancelar</button> -->
+          <button type="submit" class="btn btn-danger" id="aceptar" routerLink="/listaUsuarios">Cancelar</button>
         </div>
       </div>
     </form>
