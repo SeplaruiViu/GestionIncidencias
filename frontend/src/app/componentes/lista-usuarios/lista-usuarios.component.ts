@@ -5,12 +5,12 @@ import { CommonModule } from '@angular/common';
 import { AuthGuard } from '../../guards/auth.guard';
 import { ConfirmarEliminarComponent } from '../confirmar-eliminar/confirmar-eliminar.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-lista-usuarios',
   standalone: true,
-  imports: [MenuComponent, CommonModule, RouterModule, ConfirmarEliminarComponent],
+  imports: [MenuComponent, CommonModule, RouterModule],
   templateUrl: './lista-usuarios.component.html',
   styleUrl: './lista-usuarios.component.css',
 })

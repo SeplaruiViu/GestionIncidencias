@@ -28,7 +28,7 @@
           <th>{{usuario.nombre}}</th>
           <th>{{usuario.apellidos}}</th>
           <th>{{usuario.rol.nombre}}</th>
-          <th><button class="btn btn-primary">Editar</button>
+          <th><button class="btn btn-primary" [routerLink]="['/editarUsuario/',usuario.idUsuario]">Editar</button>
           <!-- <button class="btn btn-danger" (click)="confirmarEliminarUsuario(usuario.idUsuario)">Eliminar</button></th> -->
           <button class="btn btn-danger" (click)="abrirModal(usuario.idUsuario)">Eliminar</button></th>
 

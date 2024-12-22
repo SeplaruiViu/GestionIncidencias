@@ -12,6 +12,8 @@ export class AuthService {
   private usuariosUrl = 'http://localhost:8080/usuarios/lista';
   private rolesUrl = 'http://localhost:8080/roles/lista';
   private crearUsuarioUrl = 'http://localhost:8080/usuarios/nuevo';
+  private actualizarUsuarioUrl = 'http://localhost:8080/usuarios/actualizar';
+  private detalleUsuarioUrl = 'http://localhost:8080/usuarios/detalle/';
 
   private authData:{usuario:string; password:string} | null = null;
 
@@ -80,6 +82,28 @@ export class AuthService {
     return this.http.post(this.crearUsuarioUrl, usuario, {headers});
   }
 
+  detalleUsuario(idUsuario: number): Observable<Usuario> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+    console.log(this.detalleUsuarioUrl+idUsuario);
+    return this.http.get<Usuario>(this.detalleUsuarioUrl+idUsuario, {headers});
+  }
+  actualizarUsuario(idUsuario: number, usuario: Usuario): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.put(this.actualizarUsuarioUrl + '/' + idUsuario, usuario, {headers});
+  }
 
   getRoles():Observable<any> {
     const credenciales = this.obtenerCredenciales();
