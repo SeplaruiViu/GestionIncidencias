@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../servicios/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmarEliminarComponent } from '../../confirmar-eliminar/confirmar-eliminar.component';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-listar-roles',
   standalone: true,
-  imports: [MenuComponent, CommonModule],
+  imports: [MenuComponent, CommonModule, RouterModule],
   templateUrl: './listar-roles.component.html',
   styleUrl: './listar-roles.component.css'
 })

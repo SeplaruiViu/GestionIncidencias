@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Usuario } from '../modelos/usuario-interface';
+import { Rol } from '../modelos/rol-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class AuthService {
   private actualizarUsuarioUrl = 'http://localhost:8080/usuarios/actualizar';
   private detalleUsuarioUrl = 'http://localhost:8080/usuarios/detalle/';
 
-  private elminiarRolUrl = 'http://localhost:8080/roles/eliminar/'
+  private eliminarRolUrl = 'http://localhost:8080/roles/eliminar/'
+  private crearRolUrl = 'http://localhost:8080/roles/nuevo';
 
   private authData:{usuario:string; password:string} | null = null;
 
@@ -118,6 +120,18 @@ export class AuthService {
     return this.http.get(this.rolesUrl, {headers});
   }
 
+  crearRol(rol: Rol):Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.post(this.crearRolUrl, rol, {headers});
+  }
+
   eliminarRol(idRol: number):Observable<any> {
     const credenciales = this.obtenerCredenciales();
     if(!credenciales) {
@@ -127,7 +141,7 @@ export class AuthService {
       'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.delete(this.elminiarRolUrl+idRol, {headers, responseType:'text'}).pipe(
+    return this.http.delete(this.eliminarRolUrl+idRol, {headers, responseType:'text'}).pipe(
       tap({
         next: (response)=> console.log('Respuesta del servidor borrado Rol: ', response),
         error: (error) => console.error('Error al eliminar el rol: ', error)

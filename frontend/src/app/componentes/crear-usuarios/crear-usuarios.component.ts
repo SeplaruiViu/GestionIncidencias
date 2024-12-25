@@ -44,7 +44,6 @@ export class CrearUsuariosComponent implements OnInit{
       });
   }
   crearUsuario(): void {
-    debugger;
     console.log('Datos del formulario: ', this.usuarioForm.value);
 
 
