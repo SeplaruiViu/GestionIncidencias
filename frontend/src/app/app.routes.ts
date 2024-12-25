@@ -5,6 +5,7 @@ import { ListaUsuariosComponent } from './componentes/lista-usuarios/lista-usuar
 import { AuthGuard } from './guards/auth.guard';
 import { CrearUsuariosComponent } from './componentes/crear-usuarios/crear-usuarios.component';
 import { EditarUsuariosComponent } from './componentes/editar-usuarios/editar-usuarios.component';
+import { ListarRolesComponent } from './componentes/roles/listar-roles/listar-roles.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: 'listaUsuarios', component: ListaUsuariosComponent, canActivate: [AuthGuard] },
   { path: 'crearUsuarios', component: CrearUsuariosComponent, canActivate: [AuthGuard] },
   { path: 'editarUsuario/:idUsuario', component: EditarUsuariosComponent, canActivate: [AuthGuard] },
+  { path: 'listaRoles', component: ListarRolesComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
