@@ -22,7 +22,7 @@
           <th>{{ rol.nombre }}</th>
           <th>{{ rol.descripcion }}</th>
           <th><button class="btn btn-primary" href="#">Editar</button>
-          <button class="btn btn-danger" href="#">Eliminar</button></th>
+          <button class="btn btn-danger" (click)="abrirModal(rol.idRol)">Eliminar</button></th>
         </tr>
       </thead>
     </table>

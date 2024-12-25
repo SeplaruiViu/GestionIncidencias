@@ -15,6 +15,8 @@ export class AuthService {
   private actualizarUsuarioUrl = 'http://localhost:8080/usuarios/actualizar';
   private detalleUsuarioUrl = 'http://localhost:8080/usuarios/detalle/';
 
+  private elminiarRolUrl = 'http://localhost:8080/roles/eliminar/'
+
   private authData:{usuario:string; password:string} | null = null;
 
   constructor(private http:HttpClient) { }
@@ -115,4 +117,22 @@ export class AuthService {
     });
     return this.http.get(this.rolesUrl, {headers});
   }
+
+  eliminarRol(idRol: number):Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.delete(this.elminiarRolUrl+idRol, {headers, responseType:'text'}).pipe(
+      tap({
+        next: (response)=> console.log('Respuesta del servidor borrado Rol: ', response),
+        error: (error) => console.error('Error al eliminar el rol: ', error)
+      })
+    );
+  }
+
 }
