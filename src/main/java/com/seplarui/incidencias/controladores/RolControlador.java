@@ -42,7 +42,7 @@ public class RolControlador {
 
     // Crear Rol
     @PostMapping("/nuevo")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createRol(@RequestBody Rol rol)
     {
         if(rol.getNombre() == null || rol.getNombre().isEmpty()) {
