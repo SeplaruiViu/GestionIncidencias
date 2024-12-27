@@ -74,7 +74,7 @@ export class EditarUsuariosComponent implements OnInit {
       },
       error:(error) => {
         console.error('Error al editar el usuario', error);
-        this.errorMensaje = 'No se ha editar crear el usuario';
+        this.errorMensaje = 'No se ha podido editar el usuario';
       },
     });
   }

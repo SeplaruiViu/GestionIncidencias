@@ -21,7 +21,7 @@
           <th>{{ rol.idRol }}</th>
           <th>{{ rol.nombre }}</th>
           <th>{{ rol.descripcion }}</th>
-          <th><button class="btn btn-primary" href="#">Editar</button>
+          <th><button class="btn btn-primary" [routerLink]="['/editarRoles/', rol.idRol]">Editar</button>
           <button class="btn btn-danger" (click)="abrirModal(rol.idRol)">Eliminar</button></th>
         </tr>
       </thead>

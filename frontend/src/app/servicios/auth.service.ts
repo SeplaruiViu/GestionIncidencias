@@ -18,6 +18,8 @@ export class AuthService {
 
   private eliminarRolUrl = 'http://localhost:8080/roles/eliminar/'
   private crearRolUrl = 'http://localhost:8080/roles/nuevo';
+  private detalleRolUrl = 'http://localhost:8080/roles/detalle/';
+  private actualizarRolUrl = 'http://localhost:8080/roles/actualizar'
 
   private authData:{usuario:string; password:string} | null = null;
 
@@ -149,4 +151,28 @@ export class AuthService {
     );
   }
 
+
+  detalleRol(idRol: number): Observable<Rol> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+    console.log(this.detalleRolUrl+idRol);
+    return this.http.get<Rol>(this.detalleRolUrl+idRol, {headers});
+  }
+
+  actualizarRol(idRol: number, rol: Rol): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if(!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.put(this.actualizarRolUrl + '/' + idRol, rol, {headers});
+  }
 }

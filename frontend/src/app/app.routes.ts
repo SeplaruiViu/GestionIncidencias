@@ -7,6 +7,7 @@ import { CrearUsuariosComponent } from './componentes/crear-usuarios/crear-usuar
 import { EditarUsuariosComponent } from './componentes/editar-usuarios/editar-usuarios.component';
 import { ListarRolesComponent } from './componentes/roles/listar-roles/listar-roles.component';
 import { CrearRolesComponent } from './componentes/roles/crear-roles/crear-roles.component';
+import { EditarRolesComponent } from './componentes/roles/editar-roles/editar-roles.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'crearUsuarios', component: CrearUsuariosComponent, canActivate: [AuthGuard] },
   { path: 'editarUsuario/:idUsuario', component: EditarUsuariosComponent, canActivate: [AuthGuard] },
   { path: 'listaRoles', component: ListarRolesComponent, canActivate: [AuthGuard] },
-  { path: 'crearRoles', component:CrearRolesComponent, canActivate: [AuthGuard] },
+  { path: 'crearRoles', component: CrearRolesComponent, canActivate: [AuthGuard] },
+  { path: 'editarRoles/:idRol', component: EditarRolesComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
