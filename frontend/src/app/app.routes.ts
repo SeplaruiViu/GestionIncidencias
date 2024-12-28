@@ -9,6 +9,7 @@ import { ListarRolesComponent } from './componentes/roles/listar-roles/listar-ro
 import { CrearRolesComponent } from './componentes/roles/crear-roles/crear-roles.component';
 import { EditarRolesComponent } from './componentes/roles/editar-roles/editar-roles.component';
 import { ListarTipoIncidenciaComponent } from './componentes/tipo-incidencia/listar-tipo-incidencia/listar-tipo-incidencia.component';
+import { CrearTipoIncidenciaComponent } from './componentes/tipo-incidencia/crear-tipo-incidencia/crear-tipo-incidencia.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'listaRoles', component: ListarRolesComponent, canActivate: [AuthGuard] },
   { path: 'crearRoles', component: CrearRolesComponent, canActivate: [AuthGuard] },
   { path: 'editarRoles/:idRol', component: EditarRolesComponent, canActivate: [AuthGuard] },
-  { path: 'listaTipoIncidencias', component: ListarTipoIncidenciaComponent, canActivate: [AuthGuard] },
+  { path: 'listaTiposIncidencia', component: ListarTipoIncidenciaComponent, canActivate: [AuthGuard] },
+  { path: 'crearTipoIncidencia', component: CrearTipoIncidenciaComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

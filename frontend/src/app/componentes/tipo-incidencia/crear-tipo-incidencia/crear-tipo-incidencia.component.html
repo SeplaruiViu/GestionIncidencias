@@ -1,0 +1,45 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Crear Tipo de Incidencia</h2>
+</div>
+
+<div class="container">
+  <div *ngIf="errorMensaje" class="alert bg-success" role="alert">
+    {{ errorMensaje }}
+  </div>
+  <form [formGroup]="tipoIncidenciaForm" (ngSubmit)="crearTipoIncidencia()">
+    <div class="mb-3 row">
+      <label for="codigo" class="col-sm-3 col-form-label">Código</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="codTipoIncidencia" name="codigo" formControlName="codTipoIncidencia" required />
+        <div *ngIf="tipoIncidenciaForm.get('codTipoIncidencia')?.invalid && tipoIncidenciaForm.get('codTipoIncidencia')?.touched"
+          class="error">
+          <div *ngIf="tipoIncidenciaForm.get('codTipoIncidencia')?.errors?.['required']" class="alert bg-danger">
+            El campo Código es obligatorio.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="descripcion" class="col-sm-3 col-form-label">Descripción</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="descripcion" name="descripcion" formControlName="descripcion"
+          required />
+        <div *ngIf="tipoIncidenciaForm.get('descripcion')?.invalid && tipoIncidenciaForm.get('descripcion')?.touched"
+          class="error">
+          <div *ngIf="tipoIncidenciaForm.get('descripcion')?.errors?.['required']" class="alert bg-danger">
+            El campo Descripción es obligatorio.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col-sm-9 offset-sm-3 text-end">
+        <button type="submit" class="btn btn-primary" id="aceptar">Guardar</button>
+        <button type="button" class="btn btn-danger" id="cancelar" routerLink="/listaTiposIncidencia">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

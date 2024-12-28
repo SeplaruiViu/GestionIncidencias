@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Usuario } from '../modelos/usuario-interface';
 import { Rol } from '../modelos/rol-interface';
+import { TipoIncidencia } from '../modelos/tipo-incidencia-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class AuthService {
 
   private listarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/lista';
   private eliminarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/eliminar/';
+  private crearTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/nuevo'
 
   private authData: { usuario: string; password: string } | null = null;
 
@@ -201,11 +203,23 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.delete(this.eliminarTipoIncidenciaUrl + idTipoIncidencia, {headers, responseType: 'text'}).pipe(
+    return this.http.delete(this.eliminarTipoIncidenciaUrl + idTipoIncidencia, { headers, responseType: 'text' }).pipe(
       tap({
         next: (response) => console.log('Respuesta del servidor borrado tipo de incidencia', response),
         error: (error) => console.error('Error al eliminar el tipo de incidencia', error)
       })
     );
+  }
+
+  crearTipoIncidencia(tipoIncidencia: TipoIncidencia): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.post(this.crearTipoIncidenciaUrl, tipoIncidencia, { headers });
   }
 }
