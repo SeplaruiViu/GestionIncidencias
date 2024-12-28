@@ -21,54 +21,57 @@ export class AuthService {
   private detalleRolUrl = 'http://localhost:8080/roles/detalle/';
   private actualizarRolUrl = 'http://localhost:8080/roles/actualizar'
 
-  private authData:{usuario:string; password:string} | null = null;
+  private listarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/lista';
+  private eliminarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/eliminar/';
 
-  constructor(private http:HttpClient) { }
+  private authData: { usuario: string; password: string } | null = null;
 
-  login(usuario:string, password:string) {
-    const headers=new HttpHeaders({'Content-Type': 'application/json'});
-    const body = {usuario, password};
-    this.guardarCredenciales(usuario,password);
-    return this.http.post<any>(this.loginUrl, body, {headers});
+  constructor(private http: HttpClient) { }
+
+  login(usuario: string, password: string) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = { usuario, password };
+    this.guardarCredenciales(usuario, password);
+    return this.http.post<any>(this.loginUrl, body, { headers });
   }
 
-  guardarCredenciales(usuario:string, password:string):void {
-    this.authData = {usuario, password};
+  guardarCredenciales(usuario: string, password: string): void {
+    this.authData = { usuario, password };
     localStorage.setItem('authData', JSON.stringify(this.authData));
   }
 
-  obtenerCredenciales():{usuario:string, password:string}|null {
-    if(!this.authData) {
+  obtenerCredenciales(): { usuario: string, password: string } | null {
+    if (!this.authData) {
       console.log('Credenciales:', localStorage.getItem('usuario'))
       console.log('Credenciales:', localStorage.getItem('password'))
       const storeData = localStorage.getItem('authData');
-      this.authData = storeData ? JSON.parse(storeData):null;
+      this.authData = storeData ? JSON.parse(storeData) : null;
     }
     return this.authData;
   }
 
-  getUsuarios():Observable<any> {
+  getUsuarios(): Observable<any> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
-    return this.http.get(this.usuariosUrl, {headers});
+    return this.http.get(this.usuariosUrl, { headers });
   }
 
-  deleteUsuario(idUsuario:number):Observable<any> {
-    const urlEliminarUsuario = 'http://localhost:8080/usuarios/eliminar/'+ idUsuario;
+  deleteUsuario(idUsuario: number): Observable<any> {
+    const urlEliminarUsuario = 'http://localhost:8080/usuarios/eliminar/' + idUsuario;
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.delete(urlEliminarUsuario, {headers, responseType:'text'}).pipe(
+    return this.http.delete(urlEliminarUsuario, { headers, responseType: 'text' }).pipe(
       tap({
         next: (response) => console.log('Respuesta del servidor:', response),
         error: (error) => console.error('Error al eliminar usuario:', error)
@@ -76,76 +79,76 @@ export class AuthService {
     )
   }
 
-  crearUsuario(usuario: Usuario):Observable<any> {
+  crearUsuario(usuario: Usuario): Observable<any> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.post(this.crearUsuarioUrl, usuario, {headers});
+    return this.http.post(this.crearUsuarioUrl, usuario, { headers });
   }
 
   detalleUsuario(idUsuario: number): Observable<Usuario> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
-    console.log(this.detalleUsuarioUrl+idUsuario);
-    return this.http.get<Usuario>(this.detalleUsuarioUrl+idUsuario, {headers});
+    console.log(this.detalleUsuarioUrl + idUsuario);
+    return this.http.get<Usuario>(this.detalleUsuarioUrl + idUsuario, { headers });
   }
   actualizarUsuario(idUsuario: number, usuario: Usuario): Observable<any> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.put(this.actualizarUsuarioUrl + '/' + idUsuario, usuario, {headers});
+    return this.http.put(this.actualizarUsuarioUrl + '/' + idUsuario, usuario, { headers });
   }
 
-  getRoles():Observable<any> {
+  getRoles(): Observable<any> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
-    return this.http.get(this.rolesUrl, {headers});
+    return this.http.get(this.rolesUrl, { headers });
   }
 
-  crearRol(rol: Rol):Observable<any> {
+  crearRol(rol: Rol): Observable<any> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.post(this.crearRolUrl, rol, {headers});
+    return this.http.post(this.crearRolUrl, rol, { headers });
   }
 
-  eliminarRol(idRol: number):Observable<any> {
+  eliminarRol(idRol: number): Observable<any> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.delete(this.eliminarRolUrl+idRol, {headers, responseType:'text'}).pipe(
+    return this.http.delete(this.eliminarRolUrl + idRol, { headers, responseType: 'text' }).pipe(
       tap({
-        next: (response)=> console.log('Respuesta del servidor borrado Rol: ', response),
+        next: (response) => console.log('Respuesta del servidor borrado Rol: ', response),
         error: (error) => console.error('Error al eliminar el rol: ', error)
       })
     );
@@ -154,25 +157,55 @@ export class AuthService {
 
   detalleRol(idRol: number): Observable<Rol> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
-    console.log(this.detalleRolUrl+idRol);
-    return this.http.get<Rol>(this.detalleRolUrl+idRol, {headers});
+    console.log(this.detalleRolUrl + idRol);
+    return this.http.get<Rol>(this.detalleRolUrl + idRol, { headers });
   }
 
   actualizarRol(idRol: number, rol: Rol): Observable<any> {
     const credenciales = this.obtenerCredenciales();
-    if(!credenciales) {
+    if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization':'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.put(this.actualizarRolUrl + '/' + idRol, rol, {headers});
+    return this.http.put(this.actualizarRolUrl + '/' + idRol, rol, { headers });
+  }
+
+  //TIPO INCIDENCIA
+
+  getTipoIncidencias(): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+    return this.http.get(this.listarTipoIncidenciaUrl, { headers });
+  }
+
+  eliminarTipoIncidencia(idTipoIncidencia: number): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.delete(this.eliminarTipoIncidenciaUrl + idTipoIncidencia, {headers, responseType: 'text'}).pipe(
+      tap({
+        next: (response) => console.log('Respuesta del servidor borrado tipo de incidencia', response),
+        error: (error) => console.error('Error al eliminar el tipo de incidencia', error)
+      })
+    );
   }
 }

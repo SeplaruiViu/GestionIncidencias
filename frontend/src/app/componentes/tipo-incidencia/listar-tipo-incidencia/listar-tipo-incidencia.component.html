@@ -1,0 +1,29 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Lista Tipos de Incidencia</h2>
+  <button class="btn btn-primary" href="#">Crear Tipo de Incidencia</button>
+</div>
+<div>
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert alert-danger">
+      {{ errorMensaje }}
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>CODIGO</th>
+          <th>DESCRIPCIÓN</th>
+          <th>ACCIÓN</th>
+        </tr>
+        <tr *ngFor="let tipoInc of tiposIncidencia">
+          <th>{{tipoInc.idTipoIncidencia}}</th>
+          <th>{{tipoInc.codTipoIncidencia}}</th>
+          <th>{{tipoInc.descripcion}}</th>
+          <th><button class="btn btn-primary" href="#">Editar</button>
+          <button class="btn btn-danger" (click)="abrirModal(tipoInc.idTipoIncidencia)">Eliminar</button></th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
