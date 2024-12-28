@@ -23,6 +23,35 @@ public class TipoIncidencia {
     @OneToMany(mappedBy = "tipoIncidencia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Incidencia> listaIncidencias;
 
+    public Long getIdTipoIncidencia() {
+        return idTipoIncidencia;
+    }
 
+    public void setIdTipoIncidencia(Long idTipoIncidencia) {
+        this.idTipoIncidencia = idTipoIncidencia;
+    }
 
+    public String getCodTipoIncidencia() {
+        return codTipoIncidencia;
+    }
+
+    public void setCodTipoIncidencia(String codTipoIncidencia) {
+        this.codTipoIncidencia = codTipoIncidencia;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public List<Incidencia> getListaIncidencias() {
+        return listaIncidencias;
+    }
+
+    public void setListaIncidencias(List<Incidencia> listaIncidencias) {
+        this.listaIncidencias = listaIncidencias;
+    }
 }
