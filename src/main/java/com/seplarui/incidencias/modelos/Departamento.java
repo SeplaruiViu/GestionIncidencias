@@ -17,7 +17,7 @@ public class Departamento {
     private String codDepartamento;
 
     @Column(name="DESCRIPCION")
-    private String departamento;
+    private String descripcion;
 
     @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tecnico> listaTecnicos;
@@ -38,12 +38,12 @@ public class Departamento {
         this.codDepartamento = codDepartamento;
     }
 
-    public String getDepartamento() {
-        return departamento;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDepartamento(String departamento) {
-        this.departamento = departamento;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public List<Tecnico> getListaTecnicos() {

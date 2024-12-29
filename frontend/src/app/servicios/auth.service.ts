@@ -28,6 +28,10 @@ export class AuthService {
   private detalleTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/detalle/';
   private actualizarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/actualizar'
 
+  //DEPARTAMENTOS
+  private listarDepartamentosUrl = 'http://localhost:8080/departamentos/lista';
+  private eliminarDepartamentoUrl = 'http://localhost:8080/departamentos/eliminar/';
+
   private authData: { usuario: string; password: string } | null = null;
 
   constructor(private http: HttpClient) { }
@@ -246,7 +250,40 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.put(this.actualizarTipoIncidenciaUrl + '/' + idTipoIncidencia, tipoIncidencia, {headers})
+    return this.http.put(this.actualizarTipoIncidenciaUrl + '/' + idTipoIncidencia, tipoIncidencia, { headers })
 
   }
+
+  //DEPARTAMENTOS
+
+  getDepartamentos(): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get(this.listarDepartamentosUrl, { headers });
+  }
+
+  eliminarDepartamento(idDepartamento: number): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.delete(this.eliminarDepartamentoUrl + idDepartamento, { headers, responseType: 'text' }).pipe(
+      tap({
+        next: (response) => console.log('Respuesta del servidor borrado departamento', response),
+        error: (error) => console.error('Error al eliminar el departamento', error)
+      })
+    )
+
+  }
+
 }

@@ -1,0 +1,31 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Lista Departamentos</h2>
+  <button class="btn btn-primary" href="#">Crear Departamento</button>
+</div>
+
+<div>
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert alert-danger">
+      {{ errorMensaje }}
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>CODIGO</th>
+          <th>DESCRIPCIÓN</th>
+          <th>ACCIÓN</th>
+        </tr>
+        <tr *ngFor="let dpto of departamentos">
+          <th>{{dpto.idDepartamento}}</th>
+          <th>{{dpto.codDepartamento}}</th>
+          <th>{{dpto.descripcion}}</th>
+          <th><button class="btn btn-primary" href="#">Editar</button>
+            <button class="btn btn-danger" (click)="abrirModal(dpto.idDepartamento)">Eliminar</button>
+          </th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
