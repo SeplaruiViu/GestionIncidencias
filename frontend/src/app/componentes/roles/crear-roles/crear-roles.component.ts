@@ -13,10 +13,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './crear-roles.component.html',
   styleUrl: './crear-roles.component.css'
 })
-export class CrearRolesComponent implements OnInit{
+export class CrearRolesComponent implements OnInit {
 
-  errorMensaje:string='';
-  rol:Rol = {
+  errorMensaje: string = '';
+  rol: Rol = {
     idRol: 0,
     nombre: '',
     descripcion: ''
@@ -35,12 +35,12 @@ export class CrearRolesComponent implements OnInit{
     });
   }
 
-  crearRol():void {
+  crearRol(): void {
     console.log('Datos del formulario crear Rol: ', this.rolForm.value);
 
-    if(this.rolForm.valid) {
+    if (this.rolForm.valid) {
       this.authService.crearRol(this.rolForm.value).subscribe({
-        next:(response) => {
+        next: (response) => {
           console.log('Rol creado correctamente', response);
           this.rolForm.reset();
           this.errorMensaje = 'Rol creado correctamente';
@@ -48,11 +48,11 @@ export class CrearRolesComponent implements OnInit{
             this.errorMensaje = '';
           }, 3000);
         },
-        error:(error) => {
+        error: (error) => {
           console.error('Error al crear el rol:', error);
           this.errorMensaje = 'No se ha podido creare el rol';
         }
-      })
+      });
     }
   }
 }

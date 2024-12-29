@@ -4,11 +4,12 @@ import { AuthService } from '../../../servicios/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmarEliminarComponent } from '../../confirmar-eliminar/confirmar-eliminar.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-listar-departamentos',
   standalone: true,
-  imports: [MenuComponent, CommonModule],
+  imports: [MenuComponent, CommonModule, RouterModule],
   templateUrl: './listar-departamentos.component.html',
   styleUrl: './listar-departamentos.component.css'
 })

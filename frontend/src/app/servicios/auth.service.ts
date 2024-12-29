@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { Usuario } from '../modelos/usuario-interface';
 import { Rol } from '../modelos/rol-interface';
 import { TipoIncidencia } from '../modelos/tipo-incidencia-interface';
+import { Departamento } from '../modelos/departamento-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class AuthService {
   //DEPARTAMENTOS
   private listarDepartamentosUrl = 'http://localhost:8080/departamentos/lista';
   private eliminarDepartamentoUrl = 'http://localhost:8080/departamentos/eliminar/';
+  private crearDepartamentoUrl = 'http://localhost:8080/departamentos/nuevo';
 
   private authData: { usuario: string; password: string } | null = null;
 
@@ -282,7 +284,19 @@ export class AuthService {
         next: (response) => console.log('Respuesta del servidor borrado departamento', response),
         error: (error) => console.error('Error al eliminar el departamento', error)
       })
-    )
+    );
+  }
+
+  crearDepartamento(departamento:Departamento):Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.post(this.crearDepartamentoUrl, departamento, { headers });
 
   }
 
