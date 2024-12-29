@@ -20,7 +20,7 @@
           <th>{{tipoInc.idTipoIncidencia}}</th>
           <th>{{tipoInc.codTipoIncidencia}}</th>
           <th>{{tipoInc.descripcion}}</th>
-          <th><button class="btn btn-primary" href="#">Editar</button>
+          <th><button class="btn btn-primary" [routerLink]="['/editarTipoIncidencia/', tipoInc.idTipoIncidencia]">Editar</button>
           <button class="btn btn-danger" (click)="abrirModal(tipoInc.idTipoIncidencia)">Eliminar</button></th>
         </tr>
       </thead>

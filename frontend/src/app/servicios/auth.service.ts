@@ -25,6 +25,8 @@ export class AuthService {
   private listarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/lista';
   private eliminarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/eliminar/';
   private crearTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/nuevo'
+  private detalleTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/detalle/';
+  private actualizarTipoIncidenciaUrl = 'http://localhost:8080/tiposincidencia/actualizar'
 
   private authData: { usuario: string; password: string } | null = null;
 
@@ -221,5 +223,30 @@ export class AuthService {
     });
 
     return this.http.post(this.crearTipoIncidenciaUrl, tipoIncidencia, { headers });
+  }
+
+  detalleTipoIncidencia(idTipoIncidencia: number): Observable<TipoIncidencia> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get<TipoIncidencia>(this.detalleTipoIncidenciaUrl + idTipoIncidencia, { headers });
+  }
+
+  actualizarTipoIncidencia(idTipoIncidencia: number, tipoIncidencia: TipoIncidencia): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.put(this.actualizarTipoIncidenciaUrl + '/' + idTipoIncidencia, tipoIncidencia, {headers})
+
   }
 }
