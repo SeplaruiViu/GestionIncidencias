@@ -21,7 +21,7 @@
           <th>{{dpto.idDepartamento}}</th>
           <th>{{dpto.codDepartamento}}</th>
           <th>{{dpto.descripcion}}</th>
-          <th><button class="btn btn-primary" href="#">Editar</button>
+          <th><button class="btn btn-primary" [routerLink]="['/editarDepartamentos', dpto.idDepartamento]">Editar</button>
             <button class="btn btn-danger" (click)="abrirModal(dpto.idDepartamento)">Eliminar</button>
           </th>
         </tr>

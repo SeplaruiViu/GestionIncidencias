@@ -1,0 +1,49 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Editar Departamento</h2>
+</div>
+<div>
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert bg-success" role="alert">
+      {{errorMensaje}}
+    </div>
+    <form [formGroup]="departamentoForm" (ngSubmit)="actualizarDepartamento()">
+      <div class="mb-3 row">
+        <label for="codDepartamento" class="col-sm-3 col-form-label">Código</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="codDepartamento" name="codDepartamento"
+            formControlName="codDepartamento" required />
+          <div
+            *ngIf="departamentoForm.get('codDepartamento')?.invalid && departamentoForm.get('codDepartamento')?.touched"
+            class="error">
+            <div *ngIf="departamentoForm.get('codDepartamento')?.errors?.['required']" class="alert bg-danger">
+              El campo Código es obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="descripcion" class="col-sm-3 col-form-label">Descripción</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="descripcion" name="descripcion" formControlName="descripcion"
+            required />
+          <div *ngIf="departamentoForm.get('descripcion')?.invalid && departamentoForm.get('descripcion')?.touched"
+            class="error">
+            <div *ngIf="departamentoForm.get('descripcion')?.errors?.['required']" class="alert bg-danger">
+              El campo Descripción es obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <div class="col-sm-9 offset-sm-3 text-end">
+          <button type="submit" class="btn btn-primary" id="aceptar">Guardar</button>
+          <button type="button" class="btn btn-danger" id="cancelar" routerLink="/listaDepartamentos">Cancelar</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

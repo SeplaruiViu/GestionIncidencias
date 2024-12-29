@@ -10,8 +10,11 @@
     <div class="mb-3 row">
       <label for="codDepartamento" class="col-sm-3 col-form-label">Código</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="codDepartamento" name="codDepartamento" formControlName="codDepartamento" required />
-        <div *ngIf="departamentoForm.get('codDepartamento')?.invalid && departamentoForm.get('codDepartamento')?.touched" class="error">
+        <input type="text" class="form-control" id="codDepartamento" name="codDepartamento"
+          formControlName="codDepartamento" required />
+        <div
+          *ngIf="departamentoForm.get('codDepartamento')?.invalid && departamentoForm.get('codDepartamento')?.touched"
+          class="error">
           <div *ngIf="departamentoForm.get('codDepartamento')?.errors?.['required']" class="alert bg-danger">
             El campo Código es obligatorio.
           </div>
@@ -22,8 +25,10 @@
     <div class="mb-3 row">
       <label for="desripcion" class="col-sm-3 col-form-label">Descripción</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" id="descripcion" name="descripcion" formControlName="descripcion" required />
-        <div *ngIf="departamentoForm.get('descripcion')?.invalid && departamentoForm.get('descripcion')?.touched" class="error">
+        <input type="text" class="form-control" id="descripcion" name="descripcion" formControlName="descripcion"
+          required />
+        <div *ngIf="departamentoForm.get('descripcion')?.invalid && departamentoForm.get('descripcion')?.touched"
+          class="error">
           <div *ngIf="departamentoForm.get('descripcion')?.errors?.['required']" class="alert bg-danger">
             El campo Descripción es obligatorio.
           </div>

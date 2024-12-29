@@ -33,6 +33,8 @@ export class AuthService {
   private listarDepartamentosUrl = 'http://localhost:8080/departamentos/lista';
   private eliminarDepartamentoUrl = 'http://localhost:8080/departamentos/eliminar/';
   private crearDepartamentoUrl = 'http://localhost:8080/departamentos/nuevo';
+  private detalleDepartamentoUrl = 'http://localhost:8080/departamentos/detalle/';
+  private actualizarDepartamentoUrl = 'http://localhost:8080/departamentos/actualizar';
 
   private authData: { usuario: string; password: string } | null = null;
 
@@ -287,7 +289,7 @@ export class AuthService {
     );
   }
 
-  crearDepartamento(departamento:Departamento):Observable<any> {
+  crearDepartamento(departamento: Departamento): Observable<any> {
     const credenciales = this.obtenerCredenciales();
     if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
@@ -298,6 +300,31 @@ export class AuthService {
 
     return this.http.post(this.crearDepartamentoUrl, departamento, { headers });
 
+  }
+
+  detalleDepartamento(idDepartamento: number): Observable<Departamento> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get<Departamento>(this.detalleDepartamentoUrl + idDepartamento, { headers });
+
+  }
+
+  actualizarDepartamento(idDepartamento: number, departamento: Departamento): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.put(this.actualizarDepartamentoUrl + '/' + idDepartamento, departamento, { headers });
   }
 
 }

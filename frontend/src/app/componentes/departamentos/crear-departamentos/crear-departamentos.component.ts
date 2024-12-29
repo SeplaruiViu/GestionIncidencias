@@ -16,10 +16,10 @@ import { RouterModule } from '@angular/router';
 export class CrearDepartamentosComponent implements OnInit {
 
   errorMensaje: string = '';
-  departamento:Departamento = {
-    idDepartamento:0,
-    codDepartamento:'',
-    descripcion:''
+  departamento: Departamento = {
+    idDepartamento: 0,
+    codDepartamento: '',
+    descripcion: ''
   }
 
   departamentoForm: FormGroup;
@@ -38,13 +38,13 @@ export class CrearDepartamentosComponent implements OnInit {
   crearDepartamento(): void {
     console.log('Datos del formulario crear Departamento: ', this.departamentoForm.value);
 
-    if(this.departamentoForm.valid) {
+    if (this.departamentoForm.valid) {
       this.authService.crearDepartamento(this.departamentoForm.value).subscribe({
         next: (response) => {
           console.log('Departamento creado correctamente', response);
           this.departamentoForm.reset();
           this.errorMensaje = 'Departamento creado correctamente';
-          setTimeout(()=> {
+          setTimeout(() => {
             this.errorMensaje = '';
           }, 3000);
         },
@@ -54,6 +54,5 @@ export class CrearDepartamentosComponent implements OnInit {
         }
       });
     }
-
   }
 }
