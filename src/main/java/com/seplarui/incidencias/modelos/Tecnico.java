@@ -1,6 +1,8 @@
 package com.seplarui.incidencias.modelos;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,7 +23,8 @@ public class Tecnico {
     private String apellidos;
 
     @ManyToOne
-    @JoinColumn(name = "idDepartamento", nullable = false)
+    @JoinColumn(name = "idDepartamento", nullable = true)
+    @JsonIgnoreProperties("listaTecnicos")
     private Departamento departamento;
 
     @OneToMany(mappedBy = "tecnico", cascade = CascadeType.ALL, orphanRemoval = true)

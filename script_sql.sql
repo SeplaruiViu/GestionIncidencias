@@ -18,7 +18,7 @@ CREATE TABLE USUARIOS (
     password VARCHAR(255) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     apellidos VARCHAR(255) NOT NULL,
-    idrol BIGINT UNIQUE,
+    idrol BIGINT,
     PRIMARY KEY (idusuario),
     FOREIGN KEY(idrol) REFERENCES ROLES(idrol)
     ON DELETE SET NULL
@@ -38,9 +38,10 @@ CREATE TABLE TECNICOS (
     idtecnico BIGINT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
     apellidos VARCHAR(255) NOT NULL,
-    iddepartamento BIGINT UNIQUE,
+    iddepartamento BIGINT,
     PRIMARY KEY (idtecnico),
     FOREIGN KEY(iddepartamento) REFERENCES DEPARTAMENTOS(iddepartamento)
+    ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
 
 
