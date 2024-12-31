@@ -36,6 +36,10 @@ export class AuthService {
   private detalleDepartamentoUrl = 'http://localhost:8080/departamentos/detalle/';
   private actualizarDepartamentoUrl = 'http://localhost:8080/departamentos/actualizar';
 
+  //TECNICOS
+  private listarTecnicosUrl = 'http://localhost:8080/tecnicos/lista';
+  private eliminarTecnicoUrl = 'http://localhost:8080/tecnicos/eliminar/';
+
   private authData: { usuario: string; password: string } | null = null;
 
   constructor(private http: HttpClient) { }
@@ -325,6 +329,37 @@ export class AuthService {
     });
 
     return this.http.put(this.actualizarDepartamentoUrl + '/' + idDepartamento, departamento, { headers });
+  }
+
+  //TECNICOS
+
+  getTecnicos():Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get(this.listarTecnicosUrl, { headers });
+  }
+
+  deleteTecnico(idTecnico: number): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.delete(this.eliminarTecnicoUrl+idTecnico, {headers, responseType: 'text'}).pipe(
+      tap({
+        next: (response) => console.log('Respuesta del servidor borrado tecnico', response),
+        error: (error) => console.error('Error al eliminar el tecnico ', error)
+      })
+    )
   }
 
 }

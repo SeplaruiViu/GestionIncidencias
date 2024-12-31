@@ -25,7 +25,7 @@ public class TecnicoControlador {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Tecnico>> findAll() {
         List<Tecnico> listaTecnicos = tecnicoServicio.findAll();
-
+        System.out.println(listaTecnicos.get(0).getDepartamento());
         return new ResponseEntity<>(listaTecnicos, HttpStatus.OK);
     }
 

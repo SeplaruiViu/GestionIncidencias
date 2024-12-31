@@ -1,0 +1,33 @@
+<app-menu></app-menu>
+
+<div class="container">
+  <h2>Lista de Técnicos</h2>
+  <button class="btn btn-primary" routerLink="/crearTecnicos">Crear Técnico</button>
+</div>
+
+<div>
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert alert-danger">
+      {{errorMensaje}}
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NOMBRE</th>
+          <th>APELLIDOS</th>
+          <th>DEPARTAMENTO</th>
+          <th>ACCIÓN</th>
+        </tr>
+        <tr *ngFor="let tecnico of tecnicos">
+          <th>{{tecnico.idTecnico}}</th>
+          <th>{{tecnico.nombre}}</th>
+          <th>{{tecnico.apellidos}}</th>
+          <th>{{tecnico.departamento.codDepartamento}}</th>
+          <th><button class="btn btn-primary" [routerLink]="['/editarTecnico', tecnico.idTecnico]">Editar</button>
+          <button class="btn btn-danger" (click)="abrirModal(tecnico.idTecnico)">Eliminar</button> </th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>
