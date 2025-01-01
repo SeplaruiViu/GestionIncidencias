@@ -40,7 +40,7 @@ export class AuthService {
   //TECNICOS
   private listarTecnicosUrl = 'http://localhost:8080/tecnicos/lista';
   private eliminarTecnicoUrl = 'http://localhost:8080/tecnicos/eliminar/';
-
+  private crearTecnicoUrl = 'http://localhost:8080/tecnicos/nuevo';
   private detalleTecnicoUrl = 'http://localhost:8080/tecnicos/detalle/';
   private actualizarTecnicoUrl = 'http://localhost:8080/tecnicos/actualizar';
 
@@ -364,6 +364,19 @@ export class AuthService {
         error: (error) => console.error('Error al eliminar el tecnico ', error)
       })
     )
+  }
+
+  crearTecnico(tecnico: Tecnico): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.post(this.crearTecnicoUrl, tecnico, { headers });
+
   }
 
   detalleTecnico(idTecnico: number): Observable<Tecnico> {
