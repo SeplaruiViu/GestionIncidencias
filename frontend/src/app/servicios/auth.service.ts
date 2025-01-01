@@ -5,6 +5,7 @@ import { Usuario } from '../modelos/usuario-interface';
 import { Rol } from '../modelos/rol-interface';
 import { TipoIncidencia } from '../modelos/tipo-incidencia-interface';
 import { Departamento } from '../modelos/departamento-interface';
+import { Tecnico } from '../modelos/tecnico-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,9 @@ export class AuthService {
   //TECNICOS
   private listarTecnicosUrl = 'http://localhost:8080/tecnicos/lista';
   private eliminarTecnicoUrl = 'http://localhost:8080/tecnicos/eliminar/';
+
+  private detalleTecnicoUrl = 'http://localhost:8080/tecnicos/detalle/';
+  private actualizarTecnicoUrl = 'http://localhost:8080/tecnicos/actualizar';
 
   private authData: { usuario: string; password: string } | null = null;
 
@@ -333,7 +337,7 @@ export class AuthService {
 
   //TECNICOS
 
-  getTecnicos():Observable<any> {
+  getTecnicos(): Observable<any> {
     const credenciales = this.obtenerCredenciales();
     if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
@@ -354,12 +358,38 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.delete(this.eliminarTecnicoUrl+idTecnico, {headers, responseType: 'text'}).pipe(
+    return this.http.delete(this.eliminarTecnicoUrl + idTecnico, { headers, responseType: 'text' }).pipe(
       tap({
         next: (response) => console.log('Respuesta del servidor borrado tecnico', response),
         error: (error) => console.error('Error al eliminar el tecnico ', error)
       })
     )
+  }
+
+  detalleTecnico(idTecnico: number): Observable<Tecnico> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get<Tecnico>(this.detalleTecnicoUrl + idTecnico, { headers });
+
+  }
+
+  actualizarTecnico(idTecnico: number, tecnico: Tecnico): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.put(this.actualizarTecnicoUrl + '/' + idTecnico, tecnico, { headers });
+
   }
 
 }

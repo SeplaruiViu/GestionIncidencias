@@ -1,0 +1,59 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Editar Técnico</h2>
+</div>
+<div>
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert bg-success" role="alert">
+      {{ errorMensaje }}
+    </div>
+    <form [formGroup]="tecnicoForm" (ngSubmit)="actualizarTecnico()">
+      <div class="mb-3 row">
+        <label for="nombre" class="col-sm-3 col-form-label">Nombre</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="nombre" name="nombre" formControlName="nombre" required />
+          <div *ngIf="tecnicoForm.get('nombre')?.invalid && tecnicoForm.get('nombre')?.touched" class="error">
+            <div *ngIf="tecnicoForm.get('nombre')?.errors?.['required']" class="alert bg-danger">
+              el campo Nombre es obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="apellidos" class="col-sm-3 col-form-label">Apellidos</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="apellidos" name="apellidos" formControlName="apellidos"
+            required />
+          <div *ngIf="tecnicoForm.get('apellidos')?.invalid && tecnicoForm.get('apellidos')?.touched" class="error">
+            <div *ngIf="tecnicoForm.get('apellidos')?.errors?.['required']" class="alert bg-danger">
+              El campo Apellidos es obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="departamento" class="col-sm-3 col-form-label">Departamento</label>
+        <div class="col-sm-9">
+          <select id="departamento" class="form-select" formControlName="departamento" name="departamento" required>
+            <option *ngFor="let departamento of departamentos" [value]="departamento.idDepartamento">
+              {{departamento.codDepartamento}}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="tecnicoForm.get('departamento')?.invalid && tecnicoForm.get('departamento')?.touched" class="error">
+          <div *ngIf="tecnicoForm.get('departamento')?.errors?.['required']" class="alert bg-danger">
+            El campo Departamento es obligatorio.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-sm-9 offset-sm-3 text-end">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="submit" class="btn btn-danger" id="cancelar" routerLink="/listaTecnicos">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

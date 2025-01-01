@@ -74,7 +74,7 @@ export class EditarUsuariosComponent implements OnInit {
       },
       error:(error) => {
         console.error('Error al editar el usuario', error);
-        this.errorMensaje = 'No se ha podido editar el usuario';
+        this.errorMensaje = 'No se ha podido cargar el detalle del usuario';
       },
     });
   }
@@ -84,12 +84,23 @@ export class EditarUsuariosComponent implements OnInit {
       const usuarioActualizado = this.usuarioForm.value;
 
       this.authService.actualizarUsuario(this.idUsuario, usuarioActualizado).subscribe(
-        ()=> {
-          this.router.navigate(['/listaUsuarios']);
-        },
-        (error) => {
-          this.errorMensaje = 'No se ha podido editar el usuario';
-        });
+        // ()=> {
+        //   this.router.navigate(['/listaUsuarios']);
+        // },
+        // (error) => {
+        //   this.errorMensaje = 'No se ha podido editar el usuario';
+        // });
+        {
+          next: (response)=> {
+            console.log('Usuario actualizado: ', response);
+            this.router.navigate(['/listaUsuarios']);
+          },
+          error: (error) => {
+            console.error('Error al actualizar el usuario: ', error);
+            this.errorMensaje = 'No se ha podido actualizar el usuario';
+          }
+        }
+      );
     }
   }
 

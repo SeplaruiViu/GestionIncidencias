@@ -10,6 +10,13 @@ import java.util.List;
 @Table(name="DEPARTAMENTOS")
 public class Departamento {
 
+    public Departamento() {
+    }
+
+    public Departamento(Long idDepartamento) {
+        this.idDepartamento = idDepartamento;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IDDEPARTAMENTO")

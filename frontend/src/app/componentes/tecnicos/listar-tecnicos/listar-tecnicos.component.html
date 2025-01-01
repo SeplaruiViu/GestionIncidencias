@@ -24,7 +24,7 @@
           <th>{{tecnico.nombre}}</th>
           <th>{{tecnico.apellidos}}</th>
           <th>{{tecnico.departamento.codDepartamento}}</th>
-          <th><button class="btn btn-primary" [routerLink]="['/editarTecnico', tecnico.idTecnico]">Editar</button>
+          <th><button class="btn btn-primary" [routerLink]="['/editarTecnicos', tecnico.idTecnico]">Editar</button>
           <button class="btn btn-danger" (click)="abrirModal(tecnico.idTecnico)">Eliminar</button> </th>
         </tr>
       </thead>

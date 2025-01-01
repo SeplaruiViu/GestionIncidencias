@@ -15,6 +15,7 @@ import { ListarDepartamentosComponent } from './componentes/departamentos/listar
 import { CrearDepartamentosComponent } from './componentes/departamentos/crear-departamentos/crear-departamentos.component';
 import { EditarDepartamentosComponent } from './componentes/departamentos/editar-departamentos/editar-departamentos.component';
 import { ListarTecnicosComponent } from './componentes/tecnicos/listar-tecnicos/listar-tecnicos.component';
+import { EditarTecnicosComponent } from './componentes/tecnicos/editar-tecnicos/editar-tecnicos.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,5 +33,6 @@ export const routes: Routes = [
   { path: 'crearDepartamentos', component: CrearDepartamentosComponent, canActivate: [AuthGuard] },
   { path: 'editarDepartamentos/:idDepartamento', component: EditarDepartamentosComponent, canActivate: [AuthGuard] },
   { path: 'listaTecnicos', component: ListarTecnicosComponent, canActivate: [AuthGuard] },
+  { path: 'editarTecnicos/:idTecnico', component: EditarTecnicosComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
