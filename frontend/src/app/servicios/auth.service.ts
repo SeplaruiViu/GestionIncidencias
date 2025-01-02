@@ -44,6 +44,9 @@ export class AuthService {
   private detalleTecnicoUrl = 'http://localhost:8080/tecnicos/detalle/';
   private actualizarTecnicoUrl = 'http://localhost:8080/tecnicos/actualizar';
 
+  //PRIORIDAD INCIDENCIA
+  private listarPrioridadIncidenciaUrl = 'http://localhost:8080/prioridadincidencia/lista';
+
   private authData: { usuario: string; password: string } | null = null;
 
   constructor(private http: HttpClient) { }
@@ -404,5 +407,8 @@ export class AuthService {
     return this.http.put(this.actualizarTecnicoUrl + '/' + idTecnico, tecnico, { headers });
 
   }
+
+  // Prioridad Incidencia
+
 
 }
