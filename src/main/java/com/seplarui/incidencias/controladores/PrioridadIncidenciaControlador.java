@@ -60,13 +60,14 @@ public class PrioridadIncidenciaControlador {
 
     //Actualizar PrioridadIncidencia
     @PutMapping("/actualizar/{idPrioridadIncidencia}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updatePrioridadIncidencia(@PathVariable("idPrioridadIncidencia") long idPrioridadIncidencia, @RequestBody PrioridadIncidencia prioridadIncidenciaActualizado) {
         Optional<PrioridadIncidencia> prioridadIncidenciaOriginal = prioridadIncidenciaServicio.findById(idPrioridadIncidencia);
         if(prioridadIncidenciaOriginal.isEmpty() || prioridadIncidenciaOriginal == null) {
             return ResponseEntity.badRequest().body("No existe la prioridad de incidencia a actualizar");
         }
 
-        //Comprobacion de unicidad de codigo
+        //Comprobacion de unicidad de nombre
         boolean existePrioridadIncidencia = prioridadIncidenciaServicio.existsByNombre(prioridadIncidenciaActualizado.getNombre());
 
         if(existePrioridadIncidencia) {
@@ -85,6 +86,20 @@ public class PrioridadIncidenciaControlador {
 
         return new ResponseEntity<>(prioridadIncidenciaDestino, HttpStatus.OK);
     }
+
+    @DeleteMapping("/eliminar/{idPrioridadIncidencia}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<String> deletePrioridadIncidencia(@PathVariable("idPrioridadIncidencia") long idPrioridadIncidencia) {
+        Optional<PrioridadIncidencia> prioridadIncidenciaEliminar = prioridadIncidenciaServicio.findById(idPrioridadIncidencia);
+        if(prioridadIncidenciaEliminar.isEmpty() || prioridadIncidenciaEliminar == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        prioridadIncidenciaServicio.deleteById(idPrioridadIncidencia);
+        return new ResponseEntity<>("La prioridad de incidencia con IDENTIFICADOR: " + idPrioridadIncidencia + " se ha eliminado correctamente", HttpStatus.NO_CONTENT);
+    }
+
+
 
 
 

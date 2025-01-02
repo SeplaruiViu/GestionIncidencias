@@ -29,7 +29,7 @@ public class PrioridadIncidenciaServicio {
     }
 
     public void deleteById(long idPrioridadIncidencia) {
-        prioridadIncidenciaRepositorio.findById(idPrioridadIncidencia);
+        prioridadIncidenciaRepositorio.deleteById(idPrioridadIncidencia);
     }
 
     public boolean existsByNombre(String nombre) {
