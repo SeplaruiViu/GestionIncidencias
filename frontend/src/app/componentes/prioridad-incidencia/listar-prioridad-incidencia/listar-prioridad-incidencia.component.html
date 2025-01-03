@@ -1,1 +1,30 @@
-<p>listar-prioridad-incidencia works!</p>
+<app-menu></app-menu>
+<div class="container">
+  <h2>Lista Prioridades de Incidencia</h2>
+  <button class="btn btn-primary" routerLink="/crearPrioridadIncidencia">Crear Prioridad de Incidencia</button>
+</div>
+<div>
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert alert-danger">
+      {{ errorMensaje }}
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NOMBRE</th>
+          <th>DESCRIPCION</th>
+          <th>ACCIÓN</th>
+        </tr>
+        <tr *ngFor="let prioridad of prioridadesIncidencia">
+          <th>{{prioridad.idPrioridad}}</th>
+          <th>{{prioridad.nombre}}</th>
+          <th>{{prioridad.descripcion}}</th>
+          <th><button class="btn btn-primary" [routerLink]="['editarPrioridadIncidencia', prioridad.idPrioridad]">Editar</button>
+          <button class="btn btn-danger" (click)="abrirModal(prioridad.idPrioridad)">Eliminar</button>
+          </th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>

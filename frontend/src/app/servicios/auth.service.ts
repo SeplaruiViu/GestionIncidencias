@@ -6,6 +6,7 @@ import { Rol } from '../modelos/rol-interface';
 import { TipoIncidencia } from '../modelos/tipo-incidencia-interface';
 import { Departamento } from '../modelos/departamento-interface';
 import { Tecnico } from '../modelos/tecnico-interface';
+import { PrioridadIncidencia } from '../modelos/prioridad-incidencia-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,11 @@ export class AuthService {
   private actualizarTecnicoUrl = 'http://localhost:8080/tecnicos/actualizar';
 
   //PRIORIDAD INCIDENCIA
-  private listarPrioridadIncidenciaUrl = 'http://localhost:8080/prioridadincidencia/lista';
+  private listarPrioridadIncidenciaUrl = 'http://localhost:8080/prioridadesincidencia/lista';
+  private eliminarPrioridadIncidenciaUrl = 'http://localhost:8080/prioridadesincidencia/eliminar/';
+  private crearPrioridadIncidenciaUrl = 'http://localhost:8080/prioridadesincidencia/nuevo';
+  private detallePrioridadIncidenciaUrl = 'http://localhost:8080/prioridadesincidencia/detalle/';
+  private actualizarPrioridadIncidenciaUrl = 'http://localhost:8080/prioridadesincidencia/actualizar';
 
   private authData: { usuario: string; password: string } | null = null;
 
@@ -410,5 +415,70 @@ export class AuthService {
 
   // Prioridad Incidencia
 
+  getPrioridadesIncidencia(): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get(this.listarPrioridadIncidenciaUrl, { headers });
+  }
+
+  deletePrioridadIncidencia(idPrioridadIncidencia: number): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.delete(this.eliminarPrioridadIncidenciaUrl + idPrioridadIncidencia, {headers, responseType:'text'}).pipe(
+      tap({
+        next:(response)=> console.log('Respuesta del servidor borrado prioridad de incidencia', response),
+        error:(error)=> console.error('Error al eliminar la prioridad de incidencia', error)
+      })
+    );
+  }
+
+  crearPrioridadIncidencia(prioridadincidencia: PrioridadIncidencia):Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.post(this.crearPrioridadIncidenciaUrl, prioridadincidencia, {headers});
+
+  }
+
+  detallePrioridadIncidencia(idPrioridadIncidencia: number): Observable<PrioridadIncidencia> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get<PrioridadIncidencia>(this.detallePrioridadIncidenciaUrl + idPrioridadIncidencia, {headers});
+  }
+
+  actualizarPrioridadIncidencia(idPrioridadIncidencia: number, prioridadincidencia: PrioridadIncidencia): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.put(this.actualizarPrioridadIncidenciaUrl + '/' + idPrioridadIncidencia, prioridadincidencia, {headers});
+  }
 
 }
