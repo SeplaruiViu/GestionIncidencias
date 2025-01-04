@@ -19,6 +19,7 @@ import { EditarTecnicosComponent } from './componentes/tecnicos/editar-tecnicos/
 import { CrearTecnicosComponent } from './componentes/tecnicos/crear-tecnicos/crear-tecnicos.component';
 import { ListarPrioridadIncidenciaComponent } from './componentes/prioridad-incidencia/listar-prioridad-incidencia/listar-prioridad-incidencia.component';
 import { CrearPrioridadIncidenciaComponent } from './componentes/prioridad-incidencia/crear-prioridad-incidencia/crear-prioridad-incidencia.component';
+import { EditarPrioridadIncidenciaComponent } from './componentes/prioridad-incidencia/editar-prioridad-incidencia/editar-prioridad-incidencia.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -40,5 +41,6 @@ export const routes: Routes = [
   { path: 'crearTecnicos', component: CrearTecnicosComponent, canActivate: [AuthGuard] },
   { path: 'listaPrioridadesIncidencia', component: ListarPrioridadIncidenciaComponent, canActivate: [AuthGuard] },
   { path: 'crearPrioridadIncidencia', component: CrearPrioridadIncidenciaComponent, canActivate: [AuthGuard] },
+  { path: 'editarPrioridadIncidencia/:idPrioridad', component: EditarPrioridadIncidenciaComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

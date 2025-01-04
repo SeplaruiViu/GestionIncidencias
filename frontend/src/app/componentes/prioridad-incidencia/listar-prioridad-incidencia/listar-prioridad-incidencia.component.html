@@ -20,7 +20,7 @@
           <th>{{prioridad.idPrioridad}}</th>
           <th>{{prioridad.nombre}}</th>
           <th>{{prioridad.descripcion}}</th>
-          <th><button class="btn btn-primary" [routerLink]="['editarPrioridadIncidencia', prioridad.idPrioridad]">Editar</button>
+          <th><button class="btn btn-primary" [routerLink]="['/editarPrioridadIncidencia', prioridad.idPrioridad]">Editar</button>
           <button class="btn btn-danger" (click)="abrirModal(prioridad.idPrioridad)">Eliminar</button>
           </th>
         </tr>

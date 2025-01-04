@@ -20,7 +20,7 @@ export class EditarTipoIncidenciaComponent implements OnInit {
   errorMensaje: string | null = null;
   idTipoIncidencia!: number;
 
-  constructor(private authService: AuthService, private route:ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.idTipoIncidencia = +this.route.snapshot.paramMap.get('idTipoIncidencia')!;
@@ -48,13 +48,13 @@ export class EditarTipoIncidenciaComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar el detalle del tipo incidencia: ', error);
-        this.errorMensaje = 'No se ha podido editar el tipo incidencia';
+        this.errorMensaje = 'No se ha podido cargar el detalle del tipo incidencia';
       }
     });
   }
 
   actualizarTipoIncidencia(): void {
-    if(this.tipoIncidenciaForm.valid) {
+    if (this.tipoIncidenciaForm.valid) {
       const tipoIncidenciaActualizado = this.tipoIncidenciaForm.value;
 
       this.authService.actualizarTipoIncidencia(this.idTipoIncidencia, tipoIncidenciaActualizado).subscribe({
