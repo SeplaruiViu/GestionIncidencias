@@ -2,6 +2,7 @@ package com.seplarui.incidencias.controladores;
 
 import com.seplarui.incidencias.modelos.Rol;
 import com.seplarui.incidencias.modelos.Tecnico;
+import com.seplarui.incidencias.servicios.AuditoriaServicio;
 import com.seplarui.incidencias.servicios.TecnicoServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,16 @@ public class TecnicoControlador {
     @Autowired
     TecnicoServicio tecnicoServicio;
 
+    @Autowired
+    AuditoriaServicio auditoriaServicio;
+
     //Listar Tecnicos
     @RequestMapping("/lista")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Tecnico>> findAll() {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("listar Técnico", "/tecnicos/lista");
+
         List<Tecnico> listaTecnicos = tecnicoServicio.findAll();
         System.out.println(listaTecnicos.get(0).getDepartamento());
         return new ResponseEntity<>(listaTecnicos, HttpStatus.OK);
@@ -33,6 +40,9 @@ public class TecnicoControlador {
     @RequestMapping("/detalle/{idTecnico}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Optional<Tecnico>> findById(@PathVariable("idTecnico") long idTecnico) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("detalle Técnico", "/tecnicos/detalle/"+idTecnico);
+
         Optional<Tecnico> tecnico = tecnicoServicio.findById(idTecnico);
         if(tecnico.isEmpty() || tecnico == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -46,14 +56,8 @@ public class TecnicoControlador {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createTecnico(@RequestBody Tecnico tecnico)
     {
-//        if(tecnico.getNombre() == null || tecnico.getNombre().isEmpty()) {
-//            return ResponseEntity.badRequest().body("El nombre del Rol no puede estar en blanco");
-//        }
-//
-//        boolean existeRol = rolServicio.existsByNombre(tecnico.getNombre());
-//        if(existeRol) {
-//            return ResponseEntity.badRequest().body("El nombre del Rol ya existe en el sistema.");
-//        }
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("nuevo Técnico", "/tecnicos/nuevo");
 
         Tecnico nuevoTecnico = tecnicoServicio.save(tecnico);
         return new ResponseEntity<>(nuevoTecnico, HttpStatus.CREATED);
@@ -62,6 +66,9 @@ public class TecnicoControlador {
     @PutMapping("/actualizar/{idTecnico}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateTecnico(@PathVariable("idTecnico") long idTecnico, @RequestBody Tecnico tecnicoActualizado) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("actualizar Técnico", "/tecnicos/actualizar/"+idTecnico);
+
         Optional<Tecnico> tecnicoOriginal = tecnicoServicio.findById(idTecnico);
         if(tecnicoOriginal.isEmpty() || tecnicoOriginal == null) {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -89,6 +96,9 @@ public class TecnicoControlador {
     @DeleteMapping("/eliminar/{idTecnico}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> deleteTecnico(@PathVariable("idTecnico") long idTecnico) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("eliminar Técnico", "/tecnicos/eliminar/"+idTecnico);
+
         Optional<Tecnico> tecnicoEliminar = tecnicoServicio.findById(idTecnico);
         if(tecnicoEliminar == null || tecnicoEliminar.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

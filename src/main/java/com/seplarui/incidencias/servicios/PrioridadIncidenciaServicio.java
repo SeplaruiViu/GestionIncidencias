@@ -35,4 +35,7 @@ public class PrioridadIncidenciaServicio {
     public boolean existsByNombre(String nombre) {
         return prioridadIncidenciaRepositorio.existsByNombre(nombre);
     }
+    public boolean existsByNombreAndIdPrioridadNot(String nombre, Long idPrioridad) {
+        return prioridadIncidenciaRepositorio.existsByNombreAndIdPrioridadNot(nombre, idPrioridad);
+    }
 }

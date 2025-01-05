@@ -2,6 +2,7 @@ package com.seplarui.incidencias.controladores;
 
 
 import com.seplarui.incidencias.modelos.Rol;
+import com.seplarui.incidencias.servicios.AuditoriaServicio;
 import com.seplarui.incidencias.servicios.RolServicio;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,17 @@ public class RolControlador {
 
     @Autowired
     RolServicio rolServicio;
+
+    @Autowired
+    AuditoriaServicio auditoriaServicio;
+
     // Listar Roles
     @RequestMapping("/lista")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Rol>> findAll() {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("listar Rol", "/roles/lista/");
+
         List<Rol> listaRoles = rolServicio.findAll();
 
         return new ResponseEntity<>(listaRoles, HttpStatus.OK);
@@ -32,6 +40,9 @@ public class RolControlador {
     @RequestMapping("/detalle/{idRol}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Optional<Rol>> findById(@PathVariable("idRol") long idRol) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("detalle Rol", "/roles/detalle/"+idRol);
+
         Optional<Rol> rol = rolServicio.findById(idRol);
         if(rol.isEmpty() || rol == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -45,6 +56,9 @@ public class RolControlador {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createRol(@RequestBody Rol rol)
     {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("nuevo Rol", "/roles/nuevo");
+
         if(rol.getNombre() == null || rol.getNombre().isEmpty()) {
             return ResponseEntity.badRequest().body("El nombre del Rol no puede estar en blanco");
         }
@@ -60,6 +74,11 @@ public class RolControlador {
 
     @PutMapping("/actualizar/{idRol}")
     public ResponseEntity<?> updateRol(@PathVariable("idRol") long idRol, @RequestBody Rol rolActualizado) {
+
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("actualizar Rol", "/roles/actualizar/"+idRol);
+
+
         Optional<Rol> rolOriginal = rolServicio.findById(idRol);
         if(rolOriginal.isEmpty() || rolOriginal == null) {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -85,6 +104,9 @@ public class RolControlador {
 
     @DeleteMapping("/eliminar/{idRol}")
     public ResponseEntity<String>  deleteRol(@PathVariable("idRol") long idRol) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("eliminar Rol", "/roles/eliminar/"+idRol);
+
         Optional<Rol> rolEliminar = rolServicio.findById(idRol);
         if(rolEliminar.isEmpty() || rolEliminar == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

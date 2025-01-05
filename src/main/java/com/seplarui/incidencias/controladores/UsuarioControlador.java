@@ -2,6 +2,7 @@ package com.seplarui.incidencias.controladores;
 
 
 import com.seplarui.incidencias.modelos.Usuario;
+import com.seplarui.incidencias.servicios.AuditoriaServicio;
 import com.seplarui.incidencias.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ public class UsuarioControlador {
     @Autowired
     private PasswordEncoder passwordEncoder;
     //private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private AuditoriaServicio auditoriaServicio;
 
     public UsuarioControlador(UsuarioServicio usuarioServicio, PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -36,6 +39,9 @@ public class UsuarioControlador {
     //@CrossOrigin("http://localhost:4200")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Usuario>> findAll() {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("listar Usuario", "/usuarios/lista/");
+
         List<Usuario> listaUsuarios = usuarioServicio.findAll();
         System.out.println(listaUsuarios.get(0).getRol());
         return new ResponseEntity<>(listaUsuarios, HttpStatus.OK);
@@ -45,6 +51,9 @@ public class UsuarioControlador {
     @RequestMapping("/detalle/{idUsuario}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') OR hasAuthority('ROLE_USER')")
     public ResponseEntity<?> findById(@PathVariable("idUsuario") long idUsuario) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("detalle Usuario", "/usuarios/detalle/"+idUsuario);
+
         Optional<Usuario> usuario = usuarioServicio.findById(idUsuario);
         if(usuario.isEmpty() || usuario == null) {
             return ResponseEntity.badRequest().body("No existe el usuario");
@@ -56,6 +65,10 @@ public class UsuarioControlador {
     //Crear usuario
     @PostMapping("/nuevo")
     public ResponseEntity<?> createUsuario(@RequestBody Usuario usuario) {
+
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("nuevo Usuario", "/usuarios/nuevo");
+
 
         if(usuario.getNombre() == null || usuario.getNombre().isEmpty()) {
             return ResponseEntity.badRequest().body("El nombre del usuario no puede estar en blanco");
@@ -92,6 +105,10 @@ public class UsuarioControlador {
     @PutMapping("/actualizar/{idUsuario}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> updateUsuario(@PathVariable("idUsuario") long idUsuario, @RequestBody Usuario usuarioActualizado) {
+
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("actualizar Usuario", "/usuarios/actualizar/"+idUsuario);
+
         Optional<Usuario> usuarioOriginal = usuarioServicio.findById(idUsuario);
         if(usuarioOriginal.isEmpty() || usuarioOriginal == null) {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -158,6 +175,9 @@ public class UsuarioControlador {
     @DeleteMapping("/eliminar/{idUsuario}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> deleteUsuario(@PathVariable("idUsuario") long idUsuario) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("eliminar Usuario", "/usuarios/eliminar/"+idUsuario);
+
         Optional<Usuario> usuarioEliminar = usuarioServicio.findById(idUsuario);
 
         if(usuarioEliminar == null || usuarioEliminar.isEmpty()) {

@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PrioridadIncidenciaRepositorio extends JpaRepository<PrioridadIncidencia, Long> {
     boolean existsByNombre(String nombre);
+    boolean existsByNombreAndIdPrioridadNot(String nombre, Long idPrioridad);
 }

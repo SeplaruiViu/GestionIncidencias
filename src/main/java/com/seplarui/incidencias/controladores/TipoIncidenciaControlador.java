@@ -2,6 +2,7 @@ package com.seplarui.incidencias.controladores;
 
 
 import com.seplarui.incidencias.modelos.TipoIncidencia;
+import com.seplarui.incidencias.servicios.AuditoriaServicio;
 import com.seplarui.incidencias.servicios.TipoIncidenciaServicio;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,16 @@ public class TipoIncidenciaControlador {
     @Autowired
     TipoIncidenciaServicio tipoIncidenciaServicio;
 
+    @Autowired
+    AuditoriaServicio auditoriaServicio;
+
     // Listar TiposIncidencia
     @RequestMapping("/lista")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<TipoIncidencia>> findAll() {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("listar TipoIncidencia", "/tiposincidencia/lista");
+
         List<TipoIncidencia> listaTipoIncidencia = tipoIncidenciaServicio.findAll();
         return new ResponseEntity<>(listaTipoIncidencia, HttpStatus.OK);
     }
@@ -32,6 +39,9 @@ public class TipoIncidenciaControlador {
     @RequestMapping("/detalle/{idTipoIncidencia}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Optional<TipoIncidencia>> findById(@PathVariable("idTipoIncidencia") long idTipoIncidencia) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("detalle TipoIncidencia", "/tiposincidencia/detalle/"+idTipoIncidencia);
+
         Optional<TipoIncidencia> tipoIncidencia = tipoIncidenciaServicio.findById(idTipoIncidencia);
         if (tipoIncidencia.isEmpty() || tipoIncidencia == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -44,6 +54,9 @@ public class TipoIncidenciaControlador {
     @PostMapping("/nuevo")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> createTipoIncidencia(@RequestBody TipoIncidencia tipoIncidencia) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("nuevo TipoIncidencia", "/tiposincidencia/nuevo");
+
         if (tipoIncidencia.getCodTipoIncidencia() == null || tipoIncidencia.getCodTipoIncidencia().isEmpty()) {
             return ResponseEntity.badRequest().body("El código del tipo de incidencia no puede estar en blanco");
         }
@@ -58,6 +71,9 @@ public class TipoIncidenciaControlador {
     }
     @PutMapping("/actualizar/{idTipoIncidencia}")
     public ResponseEntity<?> updateTipoIncidencia(@PathVariable("idTipoIncidencia") long idTipoIncidencia, @RequestBody TipoIncidencia tipoIncidenciaActualizado) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("actualizar TipoIncidencia", "/tiposincidencia/actualizar/"+idTipoIncidencia);
+
         Optional<TipoIncidencia> tipoIncidenciaOriginal = tipoIncidenciaServicio.findById(idTipoIncidencia);
         if(tipoIncidenciaOriginal.isEmpty() || tipoIncidenciaOriginal == null) {
             return ResponseEntity.badRequest().body("No existe el tipo de incidencia a actualizar");
@@ -86,6 +102,9 @@ public class TipoIncidenciaControlador {
 
     @DeleteMapping("/eliminar/{idTipoIncidencia}")
     public ResponseEntity<String> deleteTipoIncidencia(@PathVariable("idTipoIncidencia") long idTipoIncidencia) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("eliminar TipoIncidencia", "/tiposincidencia/eliminar/"+idTipoIncidencia);
+
         Optional<TipoIncidencia> tipoIncidenciaEliminar = tipoIncidenciaServicio.findById(idTipoIncidencia);
         if(tipoIncidenciaEliminar.isEmpty() || tipoIncidenciaEliminar == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
