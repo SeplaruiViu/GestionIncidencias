@@ -16,7 +16,7 @@
           <th>FECHA ACCIÓN</th>
           <th>USUARIO</th>
         </tr>
-        <tr *ngFor="let auditoria of auditorias">
+        <tr *ngFor="let auditoria of pagedItems">
           <th>{{auditoria.idAuditoria}}</th>
           <th>{{auditoria.accion}}</th>
           <th>{{auditoria.endPoint}}</th>
@@ -24,6 +24,10 @@
           <th>{{auditoria.usuario}}</th>
         </tr>
       </thead>
+      <div class="d-flex justify-content-center mt-3">
+        <ngb-pagination [(page)]="currentPage" [pageSize]="pageSize" [collectionSize]="auditorias.length"
+        (pageChange)="onPageChange($event)" aria-label="Default pagination"></ngb-pagination>
+      </div>
     </div>
   </div>
 </div>
