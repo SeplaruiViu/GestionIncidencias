@@ -52,6 +52,9 @@ export class AuthService {
   private detallePrioridadIncidenciaUrl = 'http://localhost:8080/prioridadesincidencia/detalle/';
   private actualizarPrioridadIncidenciaUrl = 'http://localhost:8080/prioridadesincidencia/actualizar';
 
+  //AUDITORIA
+  private listarAuditoriaUrl = 'http://localhost:8080/auditoria/lista';
+
   private authData: { usuario: string; password: string } | null = null;
 
   constructor(private http: HttpClient) { }
@@ -479,6 +482,20 @@ export class AuthService {
     });
 
     return this.http.put(this.actualizarPrioridadIncidenciaUrl + '/' + idPrioridadIncidencia, prioridadincidencia, {headers});
+  }
+
+  // Auditoria
+
+  getAuditoria(): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get(this.listarAuditoriaUrl, { headers });
   }
 
 }

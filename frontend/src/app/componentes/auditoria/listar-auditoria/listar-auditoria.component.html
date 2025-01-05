@@ -1,0 +1,29 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Auditoria</h2>
+</div>
+<div>
+  <div class="container">
+    <div *ngIf="errorMensaje" class="alert alert-danger">
+      {{ errorMensaje }}
+    </div>
+    <div class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ACCIÓN</th>
+          <th>ENDPOINT</th>
+          <th>FECHA ACCIÓN</th>
+          <th>USUARIO</th>
+        </tr>
+        <tr *ngFor="let auditoria of auditorias">
+          <th>{{auditoria.idAuditoria}}</th>
+          <th>{{auditoria.accion}}</th>
+          <th>{{auditoria.endPoint}}</th>
+          <th>{{auditoria.fechaAccion}}</th>
+          <th>{{auditoria.usuario}}</th>
+        </tr>
+      </thead>
+    </div>
+  </div>
+</div>

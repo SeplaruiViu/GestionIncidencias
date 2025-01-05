@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
@@ -18,9 +19,11 @@ public class AuditoriaServicio {
     AuditoriaRepositorio auditoriaRepositorio;
 
     public Auditoria save(Auditoria auditoria) {
-
-
         return auditoriaRepositorio.save(auditoria);
+    }
+
+    public List<Auditoria> findAll() {
+        return auditoriaRepositorio.findAll();
     }
 
 
