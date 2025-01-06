@@ -3,11 +3,13 @@ import { MenuComponent } from '../../menu/menu.component';
 import { AuthService } from '../../../servicios/auth.service';
 import { CommonModule } from '@angular/common';
 import { NgbPagination, NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+import { FiltrarPipePipe } from '../../../pipes/filtrar-pipe.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-listar-auditoria',
   standalone: true,
-  imports: [MenuComponent, CommonModule, NgbPagination],
+  imports: [MenuComponent, CommonModule, NgbPagination, FiltrarPipePipe, FormsModule],
   templateUrl: './listar-auditoria.component.html',
   styleUrl: './listar-auditoria.component.css'
 })
@@ -16,6 +18,7 @@ export class ListarAuditoriaComponent implements OnInit {
   constructor(private authService: AuthService, private paginationConfig: NgbPaginationConfig) { }
   auditorias: any[] = [];
   errorMensaje: string = '';
+  terminoBusqueda: string = '';
   items: any[] = [];
   pagedItems: any[] = [];
   currentPage: number = 1;

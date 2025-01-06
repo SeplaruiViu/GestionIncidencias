@@ -7,6 +7,7 @@
     <div *ngIf="errorMensaje" class="alert alert-danger">
       {{ errorMensaje }}
     </div>
+    <input type="text" [(ngModel)]="terminoBusqueda" placeholder="Buscar..." class="form-control mb-3" />
     <div class="table">
       <thead>
         <tr>
@@ -16,7 +17,7 @@
           <th>FECHA ACCIÓN</th>
           <th>USUARIO</th>
         </tr>
-        <tr *ngFor="let auditoria of pagedItems">
+        <tr *ngFor="let auditoria of pagedItems | filtrarPipe:terminoBusqueda">
           <th>{{auditoria.idAuditoria}}</th>
           <th>{{auditoria.accion}}</th>
           <th>{{auditoria.endPoint}}</th>
