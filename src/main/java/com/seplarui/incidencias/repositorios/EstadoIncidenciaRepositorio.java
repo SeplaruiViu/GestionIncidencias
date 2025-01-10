@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EstadoIncidenciaRepositorio extends JpaRepository<EstadoIncidencia, Long> {
 
-    boolean existsByCodEstadoIncidencia(String codEstadoIncidencia);
+    boolean existsByCodEstado(String codEstadoIncidencia);
 
 }

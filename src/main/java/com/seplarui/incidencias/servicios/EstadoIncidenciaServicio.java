@@ -2,11 +2,15 @@ package com.seplarui.incidencias.servicios;
 
 import com.seplarui.incidencias.modelos.EstadoIncidencia;
 import com.seplarui.incidencias.repositorios.EstadoIncidenciaRepositorio;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class EstadoIncidenciaServicio {
 
     @Autowired
@@ -29,6 +33,6 @@ public class EstadoIncidenciaServicio {
     }
 
     public boolean existsCodEstadoIncidencia(String codEstadoIncidencia) {
-      return estadoIncidenciaRepositorio.existsByCodEstadoIncidencia(codEstadoIncidencia);
+      return estadoIncidenciaRepositorio.existsByCodEstado(codEstadoIncidencia);
     }
 }
