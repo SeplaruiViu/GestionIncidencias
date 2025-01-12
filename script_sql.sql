@@ -87,7 +87,8 @@ CREATE TABLE INCIDENCIAS(
     FOREIGN KEY(idprioridadincidencia) REFERENCES prioridades_incidencia(idprioridad),
     FOREIGN KEY(idtipoincidencia) REFERENCES tipos_incidencia(idtipoincidencia),
     FOREIGN KEY(idtecnico) REFERENCES tecnicos(idtecnico),
-    FOREIGN KEY(idusuario) REFERENCES usuarios(idusuario)
+    FOREIGN KEY(idusuario) REFERENCES usuarios(idusuario),
+    FOREIGN KEY(idnota) REFERENCES notas_incidencias(idnotaincidencia)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
 
 

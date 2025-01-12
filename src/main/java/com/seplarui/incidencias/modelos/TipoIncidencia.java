@@ -1,6 +1,7 @@
 package com.seplarui.incidencias.modelos;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class TipoIncidencia {
     private String descripcion;
 
     @OneToMany(mappedBy = "tipoIncidencia", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Incidencia> listaIncidencias;
 
     public Long getIdTipoIncidencia() {
