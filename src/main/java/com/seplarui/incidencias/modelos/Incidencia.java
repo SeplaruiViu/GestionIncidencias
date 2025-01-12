@@ -2,6 +2,7 @@ package com.seplarui.incidencias.modelos;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -41,19 +42,22 @@ public class Incidencia {
     @JoinColumn(name = "IDTECNICO", nullable = false)
     private Tecnico tecnico;
 
-    @JsonManagedReference
+ //   @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "IDESTADOINCIDENCIA")
+    @JsonIgnoreProperties("listaIncidencias")
     private EstadoIncidencia estadoIncidencia;
 
-    @JsonManagedReference
+  //  @JsonManagedReference
     @ManyToOne
     @JoinColumn(name="IDPRIORIDADINCIDENCIA")
+    @JsonIgnoreProperties("listaIncidencias")
     private PrioridadIncidencia prioridadIncidencia;
 
-    @JsonManagedReference
+  //  @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "IDTIPOINCIDENCIA")
+    @JsonIgnoreProperties("listaIncidencias")
     private TipoIncidencia tipoIncidencia;
 
     public TipoIncidencia getTipoIncidencia() {

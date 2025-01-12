@@ -1,6 +1,7 @@
 package com.seplarui.incidencias.modelos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class PrioridadIncidencia {
     private String descripcion;
 
     @OneToMany(mappedBy = "prioridadIncidencia", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonIgnoreProperties("prioridadIncidencia")
     private List<Incidencia> listaIncidencias;
 
     public Long getIdPrioridad() {
