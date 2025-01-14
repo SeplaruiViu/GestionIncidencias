@@ -26,7 +26,10 @@ public class IncidenciaServicio {
     public Optional<Incidencia> findById(Long idIncidencia) {
         return incidenciaRepositorio.findById(idIncidencia);
     }
-
+    public Incidencia findByIdNoOptional(Long idIncidencia) {
+        return incidenciaRepositorio.findById(idIncidencia)
+                .orElseThrow(null);
+    }
     public Incidencia save(Incidencia incidencia) {
         return incidenciaRepositorio.save(incidencia);
     }

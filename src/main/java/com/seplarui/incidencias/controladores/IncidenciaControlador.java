@@ -1,8 +1,10 @@
 package com.seplarui.incidencias.controladores;
 
 import com.seplarui.incidencias.modelos.Incidencia;
+import com.seplarui.incidencias.modelos.NotaIncidencia;
 import com.seplarui.incidencias.servicios.AuditoriaServicio;
 import com.seplarui.incidencias.servicios.IncidenciaServicio;
+import com.seplarui.incidencias.servicios.NotaIncidenciaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class IncidenciaControlador {
 
     @Autowired
     AuditoriaServicio auditoriaServicio;
+
+    @Autowired
+    NotaIncidenciaServicio notaIncidenciaServicio;
 
     //Listar todos las incidencias de todos los usuarios
     @RequestMapping("/lista")
@@ -81,6 +86,8 @@ public class IncidenciaControlador {
         if(incidencia.getTecnico() == null) {
             return ResponseEntity.badRequest().body("El técnico de la incidencia no puede estar en blanco");
         }
+
+
         Incidencia nuevoIncidencia = incidenciaServicio.save(incidencia);
         return new ResponseEntity<>(nuevoIncidencia, HttpStatus.CREATED);
     }
@@ -133,5 +140,33 @@ public class IncidenciaControlador {
 
         return new ResponseEntity<>(incidenciaDestino, HttpStatus.OK);
 
+    }
+
+    @PostMapping("/anyadirnota/{idIncidencia}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> anyadirNota(@PathVariable Long idIncidencia, @RequestBody NotaIncidencia notaIncidencia) {
+        Incidencia incidenciaExistente = incidenciaServicio.findByIdNoOptional(idIncidencia);
+        if(incidenciaExistente == null) {
+            return ResponseEntity.badRequest().body("No se encuentra la incidencia seleccionada");
+        }
+
+        notaIncidencia.setIncidencia(incidenciaExistente);
+
+        notaIncidenciaServicio.save(notaIncidencia);
+
+        return new ResponseEntity<>(notaIncidencia, HttpStatus.CREATED);
+
+    }
+
+    @GetMapping("/listanota/{idIncidencia}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    ResponseEntity<List<NotaIncidencia>> findAllNotasIncidencia(@PathVariable Long idIncidencia) {
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("listar Nota Incidencia", "/incidencias/listanota/" + idIncidencia);
+
+//        List<NotaIncidencia> listaNotasIncidencia = notaIncidenciaServicio.findAllNotaIncidencia();
+        List<NotaIncidencia> listaNotasIncidencia = notaIncidenciaServicio.findByIncidencia_IdIncidencia(idIncidencia);
+
+        return new ResponseEntity<>(listaNotasIncidencia, HttpStatus.OK);
     }
 }
