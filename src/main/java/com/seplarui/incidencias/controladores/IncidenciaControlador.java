@@ -169,4 +169,17 @@ public class IncidenciaControlador {
 
         return new ResponseEntity<>(listaNotasIncidencia, HttpStatus.OK);
     }
+
+    @GetMapping("/incidenciasusuario/{idUsuario}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    ResponseEntity<List<Incidencia>> findAllIncidenciasUsuario(@PathVariable Long idUsuario) {
+
+        //Auditoria
+        auditoriaServicio.guardarAuditoria("listar Incidencia Usuario", "/listaincidencias/" + idUsuario);
+
+        List<Incidencia> listaIncidencias = incidenciaServicio.findByUsuario_IdUsuario(idUsuario);
+
+        return new ResponseEntity<>(listaIncidencias, HttpStatus.OK);
+
+    }
 }

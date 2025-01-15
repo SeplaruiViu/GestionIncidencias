@@ -38,5 +38,9 @@ public class IncidenciaServicio {
         incidenciaRepositorio.deleteById(idIncidencia);
     }
 
+    public List<Incidencia> findByUsuario_IdUsuario(Long idUsuario) {
+        return incidenciaRepositorio.findByUsuario_IdUsuario(idUsuario);
+    }
+
 
 }
