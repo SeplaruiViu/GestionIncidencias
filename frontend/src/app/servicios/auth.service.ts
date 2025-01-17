@@ -7,6 +7,7 @@ import { TipoIncidencia } from '../modelos/tipo-incidencia-interface';
 import { Departamento } from '../modelos/departamento-interface';
 import { Tecnico } from '../modelos/tecnico-interface';
 import { PrioridadIncidencia } from '../modelos/prioridad-incidencia-interface';
+import { EstadoIncidencia } from '../modelos/estado-incidencia-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,13 @@ export class AuthService {
 
   //AUDITORIA
   private listarAuditoriaUrl = 'http://localhost:8080/auditoria/lista';
+
+  //ESTADO INCIDENCIA
+  private listarEstadoIncidenciaUrl = 'http://localhost:8080/estadosincidencia/lista';
+  private eliminarEstadoIncidenciaUrl = 'http://localhost:8080/estadosincidencia/eliminar/';
+  private crearEstadoIncidenciaUrl = 'http://localhost:8080/estadosincidencia/nuevo'
+  private detalleEstadoIncidenciaUrl = 'http://localhost:8080/estadosincidencia/detalle/';
+  private actualizarEstadoIncidenciaUrl = 'http://localhost:8080/estadosincidencia/actualizar';
 
   private authData: { usuario: string; password: string } | null = null;
 
@@ -439,15 +447,15 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.delete(this.eliminarPrioridadIncidenciaUrl + idPrioridadIncidencia, {headers, responseType:'text'}).pipe(
+    return this.http.delete(this.eliminarPrioridadIncidenciaUrl + idPrioridadIncidencia, { headers, responseType: 'text' }).pipe(
       tap({
-        next:(response)=> console.log('Respuesta del servidor borrado prioridad de incidencia', response),
-        error:(error)=> console.error('Error al eliminar la prioridad de incidencia', error)
+        next: (response) => console.log('Respuesta del servidor borrado prioridad de incidencia', response),
+        error: (error) => console.error('Error al eliminar la prioridad de incidencia', error)
       })
     );
   }
 
-  crearPrioridadIncidencia(prioridadincidencia: PrioridadIncidencia):Observable<any> {
+  crearPrioridadIncidencia(prioridadincidencia: PrioridadIncidencia): Observable<any> {
     const credenciales = this.obtenerCredenciales();
     if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
@@ -456,7 +464,7 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.post(this.crearPrioridadIncidenciaUrl, prioridadincidencia, {headers});
+    return this.http.post(this.crearPrioridadIncidenciaUrl, prioridadincidencia, { headers });
 
   }
 
@@ -469,7 +477,7 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.get<PrioridadIncidencia>(this.detallePrioridadIncidenciaUrl + idPrioridadIncidencia, {headers});
+    return this.http.get<PrioridadIncidencia>(this.detallePrioridadIncidenciaUrl + idPrioridadIncidencia, { headers });
   }
 
   actualizarPrioridadIncidencia(idPrioridadIncidencia: number, prioridadincidencia: PrioridadIncidencia): Observable<any> {
@@ -481,7 +489,7 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.put(this.actualizarPrioridadIncidenciaUrl + '/' + idPrioridadIncidencia, prioridadincidencia, {headers});
+    return this.http.put(this.actualizarPrioridadIncidenciaUrl + '/' + idPrioridadIncidencia, prioridadincidencia, { headers });
   }
 
   // Auditoria
@@ -496,6 +504,77 @@ export class AuthService {
     });
 
     return this.http.get(this.listarAuditoriaUrl, { headers });
+  }
+
+  // Estado Incidencia
+
+  getEstadosIncidencia(): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get(this.listarEstadoIncidenciaUrl, { headers })
+  }
+
+  deleteEstadoIncidencia(idEstadoIncidencia: number): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.delete(this.eliminarEstadoIncidenciaUrl + idEstadoIncidencia, { headers, responseType: 'text' }).pipe(
+      tap({
+        next: (response) => {
+          console.log('Respuesta del servidor borrado estado de la incidencia: ', response);
+        },
+        error: (error) => {
+          console.error('Error al eliminar el estado de incidencia', error);
+        }
+      })
+    )
+  }
+
+  crearEstadoIncidencia(estadoIncidencia: EstadoIncidencia): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.post(this.crearEstadoIncidenciaUrl, estadoIncidencia, { headers });
+  }
+
+  detalleEstadoIncidencia(idEstadoIncidencia: number): Observable<EstadoIncidencia> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get<EstadoIncidencia>(this.detalleEstadoIncidenciaUrl + idEstadoIncidencia, { headers });
+  }
+
+  actualizarEstadoIncidencia(idEstadoIncidencia: number, estadoIncidencia: EstadoIncidencia):Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.put(this.actualizarPrioridadIncidenciaUrl + '/' + idEstadoIncidencia, estadoIncidencia, {headers});
   }
 
 }
