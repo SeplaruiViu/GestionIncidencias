@@ -89,16 +89,23 @@ public class EstadoIncidenciaControlador {
             return ResponseEntity.badRequest().body("No existe el Estado Incidencia a actualizar");
         }
 
-        //Comprobacion de unicidad de nombre
-        boolean existeEstadoIncidencia = estadoIncidenciaServicio.existsCodEstadoIncidencia(estadoIncidenciaActualizado.getCodEstado());
-        if(existeEstadoIncidencia) {
-            return ResponseEntity.badRequest().body("El nombre del Estado Incidencia ya existe en el sistema");
+
+
+
+        EstadoIncidencia estadoIncidencia = estadoIncidenciaOriginal.get();
+
+        if(!estadoIncidencia.getCodEstado().equals(estadoIncidenciaActualizado.getCodEstado())) {
+            //Comprobacion de unicidad de nombre
+            boolean existeEstadoIncidencia = estadoIncidenciaServicio.existsCodEstadoIncidencia(estadoIncidenciaActualizado.getCodEstado());
+            if(existeEstadoIncidencia) {
+                return ResponseEntity.badRequest().body("El nombre del Estado Incidencia ya existe en el sistema");
+            }
         }
+
         if(estadoIncidenciaActualizado.getCodEstado() == null || estadoIncidenciaActualizado.getCodEstado().isEmpty()) {
             return ResponseEntity.badRequest().body("El nombre del Estado Incidencia no puede estar en blanco");
         }
 
-        EstadoIncidencia estadoIncidencia = estadoIncidenciaOriginal.get();
 
         estadoIncidencia.setCodEstado(estadoIncidenciaActualizado.getCodEstado());
         estadoIncidencia.setDescripcion(estadoIncidenciaActualizado.getDescripcion());
