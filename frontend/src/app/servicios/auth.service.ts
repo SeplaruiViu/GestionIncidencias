@@ -514,7 +514,7 @@ export class AuthService {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
     return this.http.get(this.listarEstadoIncidenciaUrl, { headers })
@@ -526,7 +526,7 @@ export class AuthService {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
     return this.http.delete(this.eliminarEstadoIncidenciaUrl + idEstadoIncidencia, { headers, responseType: 'text' }).pipe(
@@ -547,7 +547,7 @@ export class AuthService {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
     return this.http.post(this.crearEstadoIncidenciaUrl, estadoIncidencia, { headers });
@@ -559,22 +559,22 @@ export class AuthService {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
     return this.http.get<EstadoIncidencia>(this.detalleEstadoIncidenciaUrl + idEstadoIncidencia, { headers });
   }
 
-  actualizarEstadoIncidencia(idEstadoIncidencia: number, estadoIncidencia: EstadoIncidencia):Observable<any> {
+  actualizarEstadoIncidencia(idEstadoIncidencia: number, estadoIncidencia: EstadoIncidencia): Observable<any> {
     const credenciales = this.obtenerCredenciales();
     if (!credenciales) {
       throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
     }
     const headers = new HttpHeaders({
-      'Authorization': 'Basic' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
     });
 
-    return this.http.put(this.actualizarPrioridadIncidenciaUrl + '/' + idEstadoIncidencia, estadoIncidencia, {headers});
+    return this.http.put(this.actualizarEstadoIncidenciaUrl + '/' + idEstadoIncidencia, estadoIncidencia, { headers });
   }
 
 }

@@ -21,6 +21,9 @@ import { ListarPrioridadIncidenciaComponent } from './componentes/prioridad-inci
 import { CrearPrioridadIncidenciaComponent } from './componentes/prioridad-incidencia/crear-prioridad-incidencia/crear-prioridad-incidencia.component';
 import { EditarPrioridadIncidenciaComponent } from './componentes/prioridad-incidencia/editar-prioridad-incidencia/editar-prioridad-incidencia.component';
 import { ListarAuditoriaComponent } from './componentes/auditoria/listar-auditoria/listar-auditoria.component';
+import { ListarEstadoIncidenciaComponent } from './componentes/estado-incidencia/listar-estado-incidencia/listar-estado-incidencia.component';
+import { CrearEstadoIncidenciaComponent } from './componentes/estado-incidencia/crear-estado-incidencia/crear-estado-incidencia.component';
+import { EditarEstadoIncidenciaComponent } from './componentes/estado-incidencia/editar-estado-incidencia/editar-estado-incidencia.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -44,5 +47,8 @@ export const routes: Routes = [
   { path: 'crearPrioridadIncidencia', component: CrearPrioridadIncidenciaComponent, canActivate: [AuthGuard] },
   { path: 'editarPrioridadIncidencia/:idPrioridad', component: EditarPrioridadIncidenciaComponent, canActivate: [AuthGuard] },
   { path: 'auditoria', component: ListarAuditoriaComponent, canActivate: [AuthGuard] },
+  { path: 'listaEstadosIncidencia', component: ListarEstadoIncidenciaComponent, canActivate: [AuthGuard] },
+  { path: 'crearEstadoIncidencia', component: CrearEstadoIncidenciaComponent, canActivate: [AuthGuard] },
+  { path: 'editarEstadoIncidencia/:idEstado', component: EditarEstadoIncidenciaComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

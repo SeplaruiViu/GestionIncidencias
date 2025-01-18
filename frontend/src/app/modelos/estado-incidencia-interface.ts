@@ -1,5 +1,5 @@
 export interface EstadoIncidencia {
   idEstadoIncidencia: number;
-  codEstadoIncidencia: number;
+  codEstado: string;
   descripcion: string;
 }

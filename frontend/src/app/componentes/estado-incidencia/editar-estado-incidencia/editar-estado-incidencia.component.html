@@ -1,0 +1,47 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Editar Estado Incidencia</h2>
+</div>
+<div class="container">
+  <div *ngIf="errorMensaje" class="alert bg-succes" role="alert">
+    {{errorMensaje}}
+  </div>
+
+
+  <form [formGroup]="estadoIncidenciaForm" (ngSubmit)="actualizarEstadoIncidencia()">
+    <div class="mb-3 row">
+      <label for="codEstado" class="col-sm-3 col-form-label">Código</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="codEstado" name="codEstado" formControlName="codEstado" required />
+        <div *ngIf="estadoIncidenciaForm.get('codEstado')?.invalid && estadoIncidenciaForm.get('codEstado')?.touched"
+          class="error">
+          <div *ngIf="estadoIncidenciaForm.get('codEstado')?.errors?.['required']" class="alert bg-danger">
+            El campo código es obligatorio.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <label for="descripcion" class="col-sm-3 col-form-label">Descripción</label>
+      <div class="col-sm-9">
+        <input type="text" class="form-control" id="descripcion" formControlName="descripcion" required />
+        <div
+          *ngIf="estadoIncidenciaForm.get('descripcion')?.invalid && estadoIncidenciaForm.get('descripcion')?.touched"
+          class="error">
+          <div *ngIf="estadoIncidenciaForm.get('descripcion')?.errors?.['required']" class="alert bg-danger">
+            El campo Descripción es obligatorio.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="mb-3 row">
+      <div class="col-sm-9 offset-sm-3 text-end">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-danger" routerLink="/listaPrioridadesIncidencia">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>
