@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -170,16 +172,51 @@ public class IncidenciaControlador {
         return new ResponseEntity<>(listaNotasIncidencia, HttpStatus.OK);
     }
 
-    @GetMapping("/incidenciasusuario/{idUsuario}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    ResponseEntity<List<Incidencia>> findAllIncidenciasUsuario(@PathVariable Long idUsuario) {
+//    @GetMapping("/incidenciasusuario/{idUsuario}")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    ResponseEntity<List<Incidencia>> findAllIncidenciasUsuario(@PathVariable Long idUsuario) {
+//
+//        //Auditoria
+//        auditoriaServicio.guardarAuditoria("listar Incidencia Usuario", "/listaincidencias/" + idUsuario);
+//
+//        List<Incidencia> listaIncidencias = incidenciaServicio.findByUsuario_IdUsuario(idUsuario);
+//
+//        return new ResponseEntity<>(listaIncidencias, HttpStatus.OK);
+//
+//    }
+    //INCIDENCIAS USUARIO
+//    @GetMapping("/misincidencias")
+//    @PreAuthorize("isAuthenticated()")
+//    public ResponseEntity<List<Incidencia>> incidenciasUsuario() {
+//
+//        //Auditoria
+//        auditoriaServicio.guardarAuditoria("listar Incidencia Usuario", "/misincidencias");
+//
+//        String usuario = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//        List<Incidencia> listaIncidencias = incidenciaServicio.findByUsuarioUsuario(usuario);
+//
+//        return new ResponseEntity<>(listaIncidencias, HttpStatus.OK);
+//    }
 
-        //Auditoria
-        auditoriaServicio.guardarAuditoria("listar Incidencia Usuario", "/listaincidencias/" + idUsuario);
+//    @GetMapping("/misincidencias")
+//    @PreAuthorize("isAuthenticated()")
+//    public ResponseEntity<List<Incidencia>> findAllIncidencias() {
+//        String usuario = SecurityContextHolder.getContext().getAuthentication().getName();
+//        String rol = SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority();
+//
+//        //Auditoria
+//        auditoriaServicio.guardarAuditoria("listar Incidencia", "/misincidencias " + usuario + " " + rol);
+//
+//        List<Incidencia> listaIncidencias = new ArrayList<>();
+//        if("ROLE_TECNICO".equals(rol)) {
+//
+//            listaIncidencias = incidenciaServicio.findByTecnicoUsuarioUsuario(usuario);
+//
+//        }
+//    return new ResponseEntity<>(listaIncidencias, HttpStatus.OK);
+//    }
 
-        List<Incidencia> listaIncidencias = incidenciaServicio.findByUsuario_IdUsuario(idUsuario);
 
-        return new ResponseEntity<>(listaIncidencias, HttpStatus.OK);
 
-    }
 }

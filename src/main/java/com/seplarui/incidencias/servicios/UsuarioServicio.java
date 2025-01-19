@@ -1,7 +1,6 @@
 package com.seplarui.incidencias.servicios;
 
 
-import com.seplarui.incidencias.modelos.Rol;
 import com.seplarui.incidencias.modelos.Usuario;
 import com.seplarui.incidencias.repositorios.UsuarioRepositorio;
 import jakarta.transaction.Transactional;

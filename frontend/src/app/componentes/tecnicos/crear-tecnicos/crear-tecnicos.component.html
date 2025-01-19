@@ -9,6 +9,18 @@
     </div>
     <form [formGroup]="tecnicoForm" (ngSubmit)="crearTecnico()">
       <div class="mb-3 row">
+        <label for="usuario" class="col-sm-3 col-form-label">Usuario</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="usuario" name="usuario" formControlName="usuario" required />
+          <div *ngIf="tecnicoForm.get('usuario')?.invalid && tecnicoForm.get('usuario')?.touched" class="error">
+            <div *ngIf="tecnicoForm.get('usuario')?.errors?.['required']" class="alert bg-danger">
+              El campo Usuario es obligatorio.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
         <label for="nombre" class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" id="nombre" name="nombre" formControlName="nombre" required />
@@ -29,6 +41,50 @@
             <div *ngIf="tecnicoForm.get('apellidos')?.errors?.['required']" class="alert bg-danger">
               El campo Apellidos es obligatorio.
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="correo" class="col-sm-3 col-form-label">Correo</label>
+        <div class="col-sm-9">
+          <input type="email" class="form-control" id="correo" name="correo" formControlName="correo" required />
+          <div *ngIf="tecnicoForm.get('correo')?.invalid && tecnicoForm.get('correo')?.touched" class="error">
+            <div *ngIf="tecnicoForm.get('correo')?.errors?.['required']" class="alert bg-danger">
+              El campo Correo es obligatorio.
+            </div>
+            <div *ngIf="tecnicoForm.get('correo')?.errors?.['email']" class="alert bg-danger">
+              El formato del correo no es válido.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="password" class="col-sm-3 col-form-label">Password</label>
+        <div class="col-sm-9">
+          <input type="password" class="form-control" id="password" name="password" formControlName="password"
+            required />
+            <div *ngIf="tecnicoForm.get('password')?.invalid && tecnicoForm.get('password')?.touched" class="error">
+              <div *ngIf="tecnicoForm.get('password')?.errors?.['required']" class="alert bg-danger">
+                El campo Password es obligatorio.
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="rol" class="col-sm-3 col-form-label">Rol</label>
+        <div class="col-sm-9">
+          <select id="rol" class="form-select" formControlName="rol" name="rol">
+            <option *ngFor="let rol of roles" [value]="rol.idRol">
+              {{rol.nombre}}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="tecnicoForm.get('rol')?.invalid && tecnicoForm.get('rol')?.touched" class="error">
+          <div *ngIf="tecnicoForm.get('rol')?.errors?.['required']" class="alert bg-danger">
+            El campo Rol es obligatorio.
           </div>
         </div>
       </div>

@@ -42,5 +42,13 @@ public class IncidenciaServicio {
         return incidenciaRepositorio.findByUsuario_IdUsuario(idUsuario);
     }
 
+    public List<Incidencia> findByUsuarioUsuario(String usuario) {
+        return incidenciaRepositorio.findByUsuarioUsuario(usuario);
+    }
+
+//    public List<Incidencia> findByTecnicoUsuarioUsuario(String usuarioTecnico) {
+//        return incidenciaRepositorio.findByTecnicoUsuarioUsuario(usuarioTecnico);
+//    }
+
 
 }

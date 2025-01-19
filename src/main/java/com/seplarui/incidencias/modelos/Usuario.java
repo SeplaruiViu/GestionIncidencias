@@ -1,13 +1,13 @@
 package com.seplarui.incidencias.modelos;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="USUARIOS")
 public class Usuario {
 
@@ -39,6 +39,17 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Incidencia> listaIncidencia;
+
+//    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Tecnico tecnico;
+
+//    public Tecnico getTecnico() {
+//        return tecnico;
+//    }
+//
+//    public void setTecnico(Tecnico tecnico) {
+//        this.tecnico = tecnico;
+//    }
 
     public Long getIdUsuario() {
         return idUsuario;

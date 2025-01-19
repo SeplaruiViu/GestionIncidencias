@@ -16,11 +16,16 @@ import { RouterModule } from '@angular/router';
 export class CrearTecnicosComponent implements OnInit {
 
   departamentos: any[] = [];
+  roles: any[] = [];
   errorMensaje: string = '';
   tecnico: Tecnico = {
     nombre: '',
     apellidos: '',
-    departamento: ''
+    correo: '',
+    password: '',
+    usuario: '',
+    departamento: '',
+    rol: ''
   }
 
   tecnicoForm: FormGroup
@@ -29,14 +34,20 @@ export class CrearTecnicosComponent implements OnInit {
     this.tecnicoForm = new FormGroup({
       nombre: new FormControl('', Validators.required),
       apellidos: new FormControl('', Validators.required),
-      departamento: new FormControl('', Validators.required)
+      correo: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', Validators.required),
+      usuario: new FormControl('', Validators.required),
+      departamento: new FormControl('', Validators.required),
+      rol: new FormControl('', Validators.required)
     });
   }
   ngOnInit(): void {
     console.log('Componente cargado crear técnicos');
     this.listaDepartamentos();
+    this.listaRoles();
   }
   crearTecnico(): void {
+    console.log('Creando tecnico: ', this.tecnicoForm.value);
     if (this.tecnicoForm.valid) {
       this.authService.crearTecnico(this.tecnicoForm.value).subscribe({
         next: (response) => {
@@ -57,7 +68,7 @@ export class CrearTecnicosComponent implements OnInit {
 
   listaDepartamentos(): void {
     this.authService.getDepartamentos().subscribe({
-      next:(datos) => {
+      next: (datos) => {
         this.departamentos = datos;
         console.log('Departamentos: ', this.departamentos);
       },
@@ -67,7 +78,18 @@ export class CrearTecnicosComponent implements OnInit {
       }
     })
   }
-
+  listaRoles(): void {
+    this.authService.getRoles().subscribe({
+      next: (datos) => {
+        this.roles = datos;
+        console.log('Roles: ', datos);
+      },
+      error: (err) => {
+        console.error('Error al obtener los roles:', err);
+        this.errorMensaje = 'No se ha podido cargar la lista de roles';
+      }
+    })
+  }
 
 
 

@@ -63,6 +63,15 @@ export class AuthService {
   private detalleEstadoIncidenciaUrl = 'http://localhost:8080/estadosincidencia/detalle/';
   private actualizarEstadoIncidenciaUrl = 'http://localhost:8080/estadosincidencia/actualizar';
 
+  //INCIDENCIA
+  private listarIncidenciaUrl = 'http://localhost:8080/incidencias/lista';
+  private crearIncidenciaUrl = 'http://localhost:8080/incidencias/nuevo';
+  private detalleIncidenciaUrl = 'http://localhost:8080/incidencias/detalle/';
+  private actualizarIncidenciaUrl = 'http://localhost:8080/incidencias/actualizar';
+  private listarNotaIncidenciaUrl = 'http://localhost:8080/incidencias/listanota/';
+  private crearNotaIncidenciaUrl = 'http://localhost:8080/incidencias/anyadirnota/'
+
+
   private authData: { usuario: string; password: string } | null = null;
 
   constructor(private http: HttpClient) { }
@@ -575,6 +584,19 @@ export class AuthService {
     });
 
     return this.http.put(this.actualizarEstadoIncidenciaUrl + '/' + idEstadoIncidencia, estadoIncidencia, { headers });
+  }
+
+  // Incidencia
+  getIncidencias(): Observable<any> {
+    const credenciales = this.obtenerCredenciales();
+    if (!credenciales) {
+      throw new Error('No se han encontrado las credenciales correctas, por favor iniciar sesión');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa(`${credenciales.usuario}:${credenciales.password}`)
+    });
+
+    return this.http.get(this.listarIncidenciaUrl, { headers });
   }
 
 }

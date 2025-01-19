@@ -32,7 +32,7 @@ public class TecnicoControlador {
         auditoriaServicio.guardarAuditoria("listar Técnico", "/tecnicos/lista");
 
         List<Tecnico> listaTecnicos = tecnicoServicio.findAll();
-        System.out.println(listaTecnicos.get(0).getDepartamento());
+//        System.out.println(listaTecnicos.get(0).getDepartamento());
         return new ResponseEntity<>(listaTecnicos, HttpStatus.OK);
     }
 

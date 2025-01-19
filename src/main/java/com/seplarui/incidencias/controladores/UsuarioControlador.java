@@ -43,7 +43,7 @@ public class UsuarioControlador {
         auditoriaServicio.guardarAuditoria("listar Usuario", "/usuarios/lista/");
 
         List<Usuario> listaUsuarios = usuarioServicio.findAll();
-        System.out.println(listaUsuarios.get(0).getRol());
+       // System.out.println(listaUsuarios.get(0).getRol());
         return new ResponseEntity<>(listaUsuarios, HttpStatus.OK);
     }
 
